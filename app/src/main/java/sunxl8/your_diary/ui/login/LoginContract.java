@@ -11,6 +11,10 @@ public interface LoginContract {
 
     interface View extends IView {
 
+        void gotoMain();
+
+        void loginFailed();
+
     }
 
     interface Presenter extends IPresenter<View> {
