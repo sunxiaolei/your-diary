@@ -55,11 +55,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(aVoid -> {
                     checkData();
-                    if (isLoginPage) {
-                        mPresenter.login(etAccount.getText().toString(), etPassword.getText().toString());
-                    } else {
-                        mPresenter.addAccount(etAccount.getText().toString(), etPassword.getText().toString());
-                    }
                 });
     }
 
@@ -100,6 +95,21 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 return;
             }
         }
+        if (isLoginPage) {
+            mPresenter.login(etAccount.getText().toString(), etPassword.getText().toString());
+        } else {
+            mPresenter.addAccount(etAccount.getText().toString(), etPassword.getText().toString());
+        }
     }
 
+    @Override
+    public void gotoMain() {
+        finish();
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    @Override
+    public void loginFailed() {
+        showToast("账号或密码有误");
+    }
 }

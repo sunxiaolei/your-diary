@@ -1,10 +1,8 @@
 package sunxl8.your_diary.ui.main;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
+import sunxl8.your_diary.widget.MyAlertDialog;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
 
@@ -20,7 +18,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     protected void initView() {
-
+        MyAlertDialog dialog = new MyAlertDialog.Builder(getApplicationContext())
+                .setTitle("没有内容")
+                .setContent("日记本是空的╮(╯▽╰)╭")
+                .setAffirm("新建一篇日记")
+                .setListener(view -> {
+                    showToast("add diary");
+                })
+                .build();
+        dialog.show(getSupportFragmentManager(), "");
     }
 
     @Override

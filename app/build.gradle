@@ -51,4 +51,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     //greenDAO
     compile 'org.greenrobot:greendao:3.2.0'
+    //CircleImageView
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }
