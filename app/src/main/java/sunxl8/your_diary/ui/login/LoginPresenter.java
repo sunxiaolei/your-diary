@@ -12,4 +12,14 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     protected LoginPresenter(BaseActivity activity) {
         super(activity);
     }
+
+    @Override
+    public void login(String account, String password) {
+
+    }
+
+    @Override
+    public void addAccount(String account, String password) {
+
+    }
 }
