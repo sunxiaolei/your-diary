@@ -15,5 +15,9 @@ public interface LoginContract {
 
     interface Presenter extends IPresenter<View> {
 
+        void login(String account, String password);
+
+        void addAccount(String account, String password);
+
     }
 }
