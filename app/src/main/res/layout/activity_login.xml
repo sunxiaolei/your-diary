@@ -3,6 +3,69 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <EditText
+        android:id="@+id/et_login_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:hint="输入账号"
+        android:minHeight="50dp"
+        android:paddingLeft="10dp"
+        android:textColor="#333333"
+        android:textColorHint="#999999"
+        android:textSize="15sp"/>
+
+    <EditText
+        android:id="@+id/et_login_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="输入密码"
+        android:inputType="textPassword"
+        android:minHeight="50dp"
+        android:paddingLeft="10dp"
+        android:textColor="#333333"
+        android:textColorHint="#999999"
+        android:textSize="15sp"/>
+
+    <EditText
+        android:id="@+id/et_login_password_affirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="确认密码"
+        android:inputType="textPassword"
+        android:minHeight="50dp"
+        android:paddingLeft="10dp"
+        android:textColor="#333333"
+        android:textColorHint="#999999"
+        android:textSize="15sp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_login_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="新增一个账户(⊙ ▽ ⊙)"
+        android:textColor="@color/colorPrimary"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_btn_login"
+        android:gravity="center"
+        android:minHeight="50dp"
+        android:text="登录"
+        android:textColor="#EEEEEE"
+        android:textSize="18sp"/>
 
 </LinearLayout>

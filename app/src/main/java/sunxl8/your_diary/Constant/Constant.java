@@ -5,4 +5,8 @@ package sunxl8.your_diary.constant;
  */
 
 public class Constant {
+
+    public static final String SP_ACCOUNT = "SP_ACCOUNT";
+    public static final String SP_ACCOUNT_NUMBER = "SP_ACCOUNT_NUMBER";
+    public static final String SP_ACCOUNT_PASSWORD = "SP_ACCOUNT_PASSWORD";
 }

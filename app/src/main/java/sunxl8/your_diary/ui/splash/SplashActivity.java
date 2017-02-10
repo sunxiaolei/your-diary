@@ -14,7 +14,10 @@ import rx.functions.Action1;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.base.IPresenter;
+import sunxl8.your_diary.constant.Constant;
+import sunxl8.your_diary.ui.login.LoginActivity;
 import sunxl8.your_diary.ui.main.MainActivity;
+import sunxl8.your_diary.util.SPUtils;
 import sunxl8.your_diary.util.TimeUtils;
 
 /**
@@ -40,16 +43,22 @@ public class SplashActivity extends BaseActivity {
     protected void initView() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 EEEE");
         tvData.setText(TimeUtils.getCurTimeString(sdf));
-        Observable.timer(2000, TimeUnit.MILLISECONDS)
-                .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(aLong -> {
-                    this.finish();
-                    startActivity(new Intent(this, MainActivity.class));
-                });
     }
 
     @Override
     protected void initData() {
-
+        Intent intent = new Intent();
+        SPUtils sp = new SPUtils(this, Constant.SP_ACCOUNT);
+        if (sp.getString(Constant.SP_ACCOUNT_NUMBER) != null) {
+            intent.setClass(this, MainActivity.class);
+        } else {
+            intent.setClass(this, LoginActivity.class);
+        }
+        Observable.timer(2000, TimeUnit.MILLISECONDS)
+                .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(aLong -> {
+                    this.finish();
+                    startActivity(intent);
+                });
     }
 }

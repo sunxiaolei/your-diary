@@ -7,7 +7,6 @@ import java.util.Map;
 
 /**
  * SP相关工具类
- *
  */
 public class SPUtils {
 
