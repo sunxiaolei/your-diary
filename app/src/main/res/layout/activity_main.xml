@@ -4,31 +4,91 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/layout_main_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:background="@color/colorPrimaryDark"
-        android:minHeight="70dp"
-        android:orientation="horizontal">
+        android:minHeight="60dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"
+            android:id="@+id/iv_main_headportrait"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/ic_head_portrait"
             app:civ_border_color="#DCDCDC"
             app:civ_border_width="2dp" />
 
         <TextView
+            android:id="@+id/tv_main_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/iv_main_headportrait"
             android:text="三叶"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_main_plus"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/selecter_plus" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_main_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:minHeight="35dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:id="@+id/iv_main_set"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/selecter_set" />
+
+        <EditText
+            android:id="@+id/et_main_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/iv_main_set"
+            android:background="@drawable/bg_search"
+            android:drawableLeft="@drawable/ic_search"
+            android:minHeight="35dp"
+            android:padding="5dp"
+            android:textColor="@android:color/white" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:layout_above="@id/layout_main_bottom"
+        android:background="#DCDCDC" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/view_line"
+        android:layout_below="@id/layout_main_top" />
 
 </RelativeLayout>
