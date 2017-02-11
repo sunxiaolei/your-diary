@@ -82,7 +82,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void showItemList(List<ItemEntity> list) {
         if (list != null && list.size() > 0) {
-            itemAdapter = new MainItemAdapter(this,list);
+            itemAdapter = new MainItemAdapter(this, list);
             rvItem.setAdapter(itemAdapter);
         } else {
             showEmptyDialog();
@@ -90,15 +90,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     private void showAddDialog(int type) {
-        if (dialogEdit == null) {
-            dialogEdit = new MyEditDialog.Builder()
-                    .setTitle("输入条目名称")
-                    .setListener(view -> {
-                        mPresenter.addItem(type,dialogEdit.getEditTextString());
-                        dialogEdit.dismiss();
-                    })
-                    .build();
-        }
+        dialogEdit = new MyEditDialog.Builder()
+                .setTitle("输入条目名称")
+                .setListener(view -> {
+                    mPresenter.addItem(type, dialogEdit.getEditTextString());
+                    dialogEdit.dismiss();
+                })
+                .build();
         dialogEdit.show(getSupportFragmentManager(), "");
     }
 

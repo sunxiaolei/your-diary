@@ -6,55 +6,48 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/layout_item_main"
+        android:id="@+id/layout_item_memo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_item_main"
-        android:minHeight="50dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:minHeight="40dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <ImageView
-            android:id="@+id/iv_item_main_type"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:id="@+id/iv_memo_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_dot" />
 
         <TextView
-            android:id="@+id/tv_item_main_title"
+            android:id="@+id/tv_memo_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@id/iv_item_main_type"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/iv_memo_dot"
             android:textColor="#333333"
             android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/iv_item_main_arrow"
+            android:id="@+id/iv_memo_delete"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/ic_arrow_right" />
-
-        <TextView
-            android:id="@+id/tv_item_main_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/iv_item_main_arrow"
-            android:textColor="#999999"
-            android:textSize="15sp" />
+            android:background="@drawable/ic_delete_memo"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.6dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="#DCDCDC" />
 
 </LinearLayout>
