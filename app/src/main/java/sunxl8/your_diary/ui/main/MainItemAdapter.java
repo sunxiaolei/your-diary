@@ -6,17 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.greenrobot.greendao.annotation.Id;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.db.entity.ItemEntity;
+import sunxl8.your_diary.ui.memo.MemoActivity;
 
 /**
  * Description: <br>
@@ -44,7 +43,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<MainItemAdapter.ItemVi
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        ItemEntity entity = mList.get(position);
+        final ItemEntity entity = mList.get(position);
         holder.tvItemName.setText(entity.getItemTitle());
         holder.tvItemCount.setText(entity.getItemCount() + "");
         switch (entity.getItemType()) {
@@ -57,8 +56,18 @@ public class MainItemAdapter extends RecyclerView.Adapter<MainItemAdapter.ItemVi
             case 2:
                 holder.ivItemType.setBackgroundResource(R.drawable.ic_plus_alert);
                 break;
-
         }
+        holder.layouItemMain.setOnClickListener(view -> {
+            switch (entity.getItemType()) {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    MemoActivity.startMemoActivity(mContext, entity.getId(), entity.getItemTitle());
+                    break;
+            }
+        });
     }
 
     @Override
@@ -68,6 +77,8 @@ public class MainItemAdapter extends RecyclerView.Adapter<MainItemAdapter.ItemVi
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.layout_item_main)
+        RelativeLayout layouItemMain;
         @BindView(R.id.tv_item_main_title)
         TextView tvItemName;
         @BindView(R.id.tv_item_main_count)
@@ -79,7 +90,6 @@ public class MainItemAdapter extends RecyclerView.Adapter<MainItemAdapter.ItemVi
         public ItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
         }
     }
 }

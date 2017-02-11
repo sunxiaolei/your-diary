@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:background="@drawable/bg_btn_login"
+        android:background="@drawable/selector_btn_login"
         android:gravity="center"
         android:minHeight="50dp"
         android:text="登录"

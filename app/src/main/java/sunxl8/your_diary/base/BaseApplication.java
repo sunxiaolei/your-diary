@@ -7,6 +7,7 @@ import com.orhanobut.logger.Logger;
 
 import org.greenrobot.greendao.database.Database;
 
+import sunxl8.your_diary.db.GreenDaoOpenHelper;
 import sunxl8.your_diary.db.dao.DaoMaster;
 import sunxl8.your_diary.db.dao.DaoSession;
 
@@ -34,10 +35,13 @@ public class BaseApplication extends Application {
     }
 
     private void initDataBase() {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ? "yd-db-encrypted" : "yd-db");
+//        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ? "yd-db-encrypted" : "yd-db");
 //        Database db = ENCRYPTED ? helper.getEncryptedWritableDb("yd-pwd") : helper.getWritableDb();
-        Database db = helper.getWritableDb();
-        daoSession = new DaoMaster(db).newSession();
+//        Database db = helper.getWritableDb();
+//        daoSession = new DaoMaster(db).newSession();
+        GreenDaoOpenHelper helper = new GreenDaoOpenHelper(this, "yd-db", null);
+        DaoMaster daoMaster = new DaoMaster(helper.getWritableDatabase());
+        daoSession = daoMaster.newSession();
     }
 
     public DaoSession getDaoSession() {
