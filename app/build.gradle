@@ -26,6 +26,12 @@ android {
     }
 }
 
+greendao {
+    schemaVersion 1
+    daoPackage 'sunxl8.your_diary.db.dao'
+    targetGenDir 'src/main/java'
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:25.1.1'
@@ -53,4 +59,6 @@ dependencies {
     compile 'org.greenrobot:greendao:3.2.0'
     //CircleImageView
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    //drop window
+    compile 'com.shehabic.droppy:Droppy:0.5.1@aar'
 }

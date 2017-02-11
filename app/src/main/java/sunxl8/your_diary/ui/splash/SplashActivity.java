@@ -13,6 +13,7 @@ import rx.Observable;
 import rx.functions.Action1;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
+import sunxl8.your_diary.base.BaseApplication;
 import sunxl8.your_diary.base.IPresenter;
 import sunxl8.your_diary.constant.Constant;
 import sunxl8.your_diary.ui.login.LoginActivity;
@@ -51,6 +52,7 @@ public class SplashActivity extends BaseActivity {
         SPUtils sp = new SPUtils(this, Constant.SP_ACCOUNT);
         if (sp.getString(Constant.SP_ACCOUNT_NUMBER) != null) {
             intent.setClass(this, MainActivity.class);
+            BaseApplication.account = sp.getString(Constant.SP_ACCOUNT_NUMBER);
         } else {
             intent.setClass(this, LoginActivity.class);
         }

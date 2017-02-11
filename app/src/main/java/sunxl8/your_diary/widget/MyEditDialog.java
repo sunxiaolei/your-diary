@@ -1,18 +1,14 @@
 package sunxl8.your_diary.widget;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.service.notification.NotificationListenerService;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import sunxl8.your_diary.R;
@@ -24,15 +20,15 @@ import sunxl8.your_diary.R;
  * Email：xiaoleisun92@gmail.com
  */
 
-public class MyAlertDialog extends DialogFragment {
+public class MyEditDialog extends DialogFragment {
 
     private static String mTitle = "标题";
-    private static String mContent = "内容";
+    private static String mEtContentHint = "";
     private static String mAffirm = "确定";
     private static View.OnClickListener mListener = null;
 
     private TextView mTvTitle;
-    private TextView mTvContent;
+    private EditText mEtContent;
     private TextView mTvAffirm;
 
     @Nullable
@@ -40,14 +36,14 @@ public class MyAlertDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_dialog_alert, container);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_dialog_edit, container);
         mTvTitle = (TextView) view.findViewById(R.id.tv_dialog_title);
-        mTvContent = (TextView) view.findViewById(R.id.tv_dialog_content);
-        mTvAffirm = (TextView) view.findViewById(R.id.tv_dialog_affirm);
-        mTvTitle.setText(mTitle);
-        mTvContent.setText(mContent);
+        mEtContent = (EditText) view.findViewById(R.id.et_dialog_content);
+        mTvAffirm = (TextView) view.findViewById(R.id.tv_dialog_sure);
         mTvAffirm.setText(mAffirm);
         mTvAffirm.setOnClickListener(mListener);
+        mTvTitle.setText(mTitle);
+        mEtContent.setHint(mEtContentHint);
         return view;
     }
 
@@ -55,8 +51,12 @@ public class MyAlertDialog extends DialogFragment {
         mTvTitle.setText(title);
     }
 
-    public void setContent(String content) {
-        mTvContent.setText(content);
+    public void setContentHint(String hint) {
+        mEtContent.setHint(hint);
+    }
+
+    public String getEditTextString(){
+        return mEtContent.getText().toString();
     }
 
     public void setAffirm(String affirm) {
@@ -74,8 +74,8 @@ public class MyAlertDialog extends DialogFragment {
             return this;
         }
 
-        public Builder setContent(String content) {
-            mContent = content;
+        public Builder setContentHint(String hint) {
+            mEtContentHint = hint;
             return this;
         }
 
@@ -89,8 +89,8 @@ public class MyAlertDialog extends DialogFragment {
             return this;
         }
 
-        public MyAlertDialog build() {
-            MyAlertDialog dialog = new MyAlertDialog();
+        public MyEditDialog build() {
+            MyEditDialog dialog = new MyEditDialog();
             return dialog;
         }
 
