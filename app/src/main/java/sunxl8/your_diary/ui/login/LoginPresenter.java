@@ -1,6 +1,7 @@
 package sunxl8.your_diary.ui.login;
 
 import sunxl8.your_diary.base.BaseActivity;
+import sunxl8.your_diary.base.BaseApplication;
 import sunxl8.your_diary.base.BasePresenter;
 import sunxl8.your_diary.constant.Constant;
 import sunxl8.your_diary.util.EncryptUtils;
@@ -25,6 +26,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                 && sp.getString(Constant.SP_ACCOUNT_PASSWORD) != null
                 && sp.getString(Constant.SP_ACCOUNT_NUMBER).equals(account)
                 && sp.getString(Constant.SP_ACCOUNT_PASSWORD).equals(password)) {
+            BaseApplication.account = account;
             mView.gotoMain();
         } else {
             mView.loginFailed();

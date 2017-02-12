@@ -13,10 +13,13 @@ import com.trello.rxlifecycle.android.ActivityEvent;
 import java.util.List;
 
 import butterknife.BindView;
+import rx.functions.Action1;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.base.BaseApplication;
 import sunxl8.your_diary.db.entity.ItemEntity;
+import sunxl8.your_diary.event.MainRefreshEvent;
+import sunxl8.your_diary.util.RxBus;
 import sunxl8.your_diary.widget.MyAlertDialog;
 import sunxl8.your_diary.widget.MyEditDialog;
 
@@ -47,20 +50,22 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     protected void initView() {
-
         RxView.clicks(ivPlus)
                 .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(aVoid -> {
                     showPlusDrop();
                 });
-
         RxView.clicks(ivSet)
                 .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(aVoid -> {
                     showToast("set");
                 });
-
         rvItem.setLayoutManager(new LinearLayoutManager(this));
+        RxBus.getInstance().onEvent(MainRefreshEvent.class)
+                .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(mainActivity -> {
+                    itemAdapter.notifyDataSetChanged();
+                });
     }
 
     private void showPlusDrop() {
@@ -110,4 +115,5 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 .build();
         dialog.show(getSupportFragmentManager(), "");
     }
+
 }

@@ -20,6 +20,10 @@ import rx.functions.Action1;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.db.entity.MemoEntity;
+import sunxl8.your_diary.event.MainRefreshEvent;
+import sunxl8.your_diary.util.RxBus;
+
+import static android.R.id.list;
 
 /**
  * Description: <br>
@@ -43,7 +47,10 @@ public class MemoActivity extends BaseActivity<MemoPresenter> implements MemoCon
 
     private MemoAdapter mAdapter;
 
+    private boolean isEdit = false;
+
     private Long memoId;
+    private List<MemoEntity> mList;
 
     @Override
     protected MemoPresenter createPresenter() {
@@ -66,8 +73,20 @@ public class MemoActivity extends BaseActivity<MemoPresenter> implements MemoCon
                     }
                     mPresenter.addItem(memoId, etNew.getText().toString());
                     etNew.setText("");
+                    RxBus.getInstance()
+                            .post(new MainRefreshEvent());
                 });
         rvMemo.setLayoutManager(new LinearLayoutManager(this));
+        RxView.clicks(ivEdit)
+                .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(aVoid -> {
+                    if (isEdit) {
+                        showList();
+                    } else {
+                        showListEdit();
+                    }
+                    isEdit = !isEdit;
+                });
     }
 
     @Override
@@ -86,9 +105,24 @@ public class MemoActivity extends BaseActivity<MemoPresenter> implements MemoCon
 
     @Override
     public void showList(List<MemoEntity> list) {
-        if (list != null && list.size() > 0) {
-            mAdapter = new MemoAdapter(this, list);
+        mList = list;
+        showList();
+    }
+
+    private void showList() {
+        findViewById(R.id.layout_memo_add).setVisibility(View.VISIBLE);
+        if (mList != null && mList.size() > 0) {
+            mAdapter = new MemoAdapter(this, mList);
             rvMemo.setAdapter(mAdapter);
         }
     }
+
+    private void showListEdit() {
+        findViewById(R.id.layout_memo_add).setVisibility(View.GONE);
+        if (mList != null && mList.size() > 0) {
+            mAdapter = new MemoAdapter(this, mList, true, mPresenter);
+            rvMemo.setAdapter(mAdapter);
+        }
+    }
+
 }

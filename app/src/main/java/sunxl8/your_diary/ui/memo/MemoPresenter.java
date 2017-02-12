@@ -8,6 +8,7 @@ import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.base.BaseApplication;
 import sunxl8.your_diary.base.BasePresenter;
 import sunxl8.your_diary.db.dao.DaoSession;
+import sunxl8.your_diary.db.dao.ItemEntityDao;
 import sunxl8.your_diary.db.dao.MemoEntityDao;
 import sunxl8.your_diary.db.entity.ItemEntity;
 import sunxl8.your_diary.db.entity.MemoEntity;
@@ -22,11 +23,13 @@ import sunxl8.your_diary.db.entity.MemoEntity;
 public class MemoPresenter extends BasePresenter<MemoContract.View> implements MemoContract.Presenter {
 
     private MemoEntityDao entityDao;
+    private ItemEntityDao entityItemDao;
 
     protected MemoPresenter(BaseActivity activity) {
         super(activity);
         DaoSession daoSession = ((BaseApplication) activity.getApplication()).getDaoSession();
         entityDao = daoSession.getMemoEntityDao();
+        entityItemDao = daoSession.getItemEntityDao();
     }
 
     @Override
@@ -35,6 +38,8 @@ public class MemoPresenter extends BasePresenter<MemoContract.View> implements M
         entity.setMemoId(memoId);
         entity.setMemo(string);
         entityDao.insert(entity);
+        //找到ItemEntity 将count++
+        addItemEntityCount(memoId);
         getItemList(memoId);
     }
 
@@ -46,5 +51,18 @@ public class MemoPresenter extends BasePresenter<MemoContract.View> implements M
                 .build();
         List<MemoEntity> list = query.list();
         mView.showList(list);
+    }
+
+    @Override
+    public void deleteItem(Long id) {
+        entityDao.deleteByKey(id);
+    }
+
+    private void addItemEntityCount(Long memoId) {
+        ItemEntity entity = entityItemDao.load(memoId);
+        int count = entity.getItemCount();
+        count++;
+        entity.setItemCount(count);
+        entityItemDao.update(entity);
     }
 }
