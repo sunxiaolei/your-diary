@@ -22,5 +22,6 @@ public interface MemoContract {
     interface Presenter extends IPresenter<View> {
         void addItem(Long memoId,String string);
         void getItemList(Long memoId);
+        void deleteItem(Long id);
     }
 }

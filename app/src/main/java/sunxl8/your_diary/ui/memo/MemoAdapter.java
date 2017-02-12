@@ -29,9 +29,19 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ItemViewHolder
     private Context mContext;
     private List<MemoEntity> mList;
 
+    private boolean isEdit = false;
+    private MemoPresenter mPresenter;
+
     public MemoAdapter(Context mContext, List<MemoEntity> list) {
         this.mContext = mContext;
         this.mList = list;
+    }
+
+    public MemoAdapter(Context mContext, List<MemoEntity> list, boolean isEdit, MemoPresenter presenter) {
+        this.mContext = mContext;
+        this.mList = list;
+        this.isEdit = isEdit;
+        this.mPresenter = presenter;
     }
 
     @Override
@@ -45,6 +55,16 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ItemViewHolder
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         final MemoEntity entity = mList.get(position);
         holder.tvContent.setText(entity.getMemo());
+        if (isEdit) {
+            holder.ivDelete.setVisibility(View.VISIBLE);
+        } else {
+            holder.ivDelete.setVisibility(View.GONE);
+        }
+        holder.ivDelete.setOnClickListener(view -> {
+            mPresenter.deleteItem(entity.getId());
+            mList.remove(position);
+            notifyDataSetChanged();
+        });
     }
 
     @Override
