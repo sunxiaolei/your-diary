@@ -73,8 +73,6 @@ public class MemoActivity extends BaseActivity<MemoPresenter> implements MemoCon
                     }
                     mPresenter.addItem(memoId, etNew.getText().toString());
                     etNew.setText("");
-                    RxBus.getInstance()
-                            .post(new MainRefreshEvent());
                 });
         rvMemo.setLayoutManager(new LinearLayoutManager(this));
         RxView.clicks(ivEdit)
