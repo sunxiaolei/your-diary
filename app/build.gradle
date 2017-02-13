@@ -27,7 +27,7 @@ android {
 }
 
 greendao {
-    schemaVersion 5
+    schemaVersion 6
     daoPackage 'sunxl8.your_diary.db.dao'
     targetGenDir 'src/main/java'
 }
@@ -61,4 +61,6 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     //drop window
     compile 'com.shehabic.droppy:Droppy:0.5.1@aar'
+    //tablayout
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 }

@@ -13,7 +13,6 @@ import com.trello.rxlifecycle.android.ActivityEvent;
 import java.util.List;
 
 import butterknife.BindView;
-import rx.functions.Action1;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.base.BaseApplication;
@@ -69,7 +68,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     private void showPlusDrop() {
-
         DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(this, ivPlus);
         droppyBuilder.addMenuItem(new DroppyMenuItem("新增联系人", R.drawable.ic_plus_contact));
         droppyBuilder.addMenuItem(new DroppyMenuItem("新建日记", R.drawable.ic_plus_diary));
