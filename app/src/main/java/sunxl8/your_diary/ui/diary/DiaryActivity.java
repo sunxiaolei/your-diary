@@ -19,6 +19,7 @@ import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.base.IPresenter;
 import sunxl8.your_diary.ui.diary.calendar.DiaryCalendarFragment;
+import sunxl8.your_diary.ui.diary.edit.DiaryEditFragment;
 import sunxl8.your_diary.ui.diary.list.DiaryListFragment;
 
 /**
@@ -50,7 +51,7 @@ public class DiaryActivity extends BaseActivity {
         mTabLayout.setTabData(mTitles);
         mFragments.add(DiaryListFragment.newInstance());
         mFragments.add(DiaryCalendarFragment.newInstance());
-        mFragments.add(new DiaryListFragment());
+        mFragments.add(DiaryEditFragment.newInstance());
         mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         RxViewPager.pageSelections(mViewPager)
                 .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
