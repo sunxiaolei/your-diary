@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/layout_item_memo"
@@ -20,17 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_dot" />
-
-        <TextView
-            android:id="@+id/tv_memo_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/iv_memo_dot"
-            android:textColor="#333333"
-            android:textSize="16sp" />
+            android:src="@drawable/ic_dot"/>
 
         <ImageView
             android:id="@+id/iv_memo_delete"
@@ -39,7 +29,19 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/ic_delete_memo"
-            android:visibility="gone" />
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_memo_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/iv_memo_delete"
+            android:layout_toRightOf="@id/iv_memo_dot"
+            android:textColor="#333333"
+            android:textSize="16sp"/>
 
     </RelativeLayout>
 
@@ -48,6 +50,6 @@
         android:layout_height="0.6dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="#DCDCDC" />
+        android:background="#DCDCDC"/>
 
 </LinearLayout>

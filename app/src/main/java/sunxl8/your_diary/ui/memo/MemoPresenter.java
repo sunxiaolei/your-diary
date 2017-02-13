@@ -12,6 +12,8 @@ import sunxl8.your_diary.db.dao.ItemEntityDao;
 import sunxl8.your_diary.db.dao.MemoEntityDao;
 import sunxl8.your_diary.db.entity.ItemEntity;
 import sunxl8.your_diary.db.entity.MemoEntity;
+import sunxl8.your_diary.event.MainRefreshEvent;
+import sunxl8.your_diary.util.RxBus;
 
 /**
  * Description: <br>
@@ -39,7 +41,7 @@ public class MemoPresenter extends BasePresenter<MemoContract.View> implements M
         entity.setMemo(string);
         entityDao.insert(entity);
         //找到ItemEntity 将count++
-        addItemEntityCount(memoId);
+        editItemEntityCount(memoId, true);
         getItemList(memoId);
     }
 
@@ -54,15 +56,22 @@ public class MemoPresenter extends BasePresenter<MemoContract.View> implements M
     }
 
     @Override
-    public void deleteItem(Long id) {
+    public void deleteItem(Long id, Long memoId) {
         entityDao.deleteByKey(id);
+        editItemEntityCount(memoId, false);
     }
 
-    private void addItemEntityCount(Long memoId) {
+    private void editItemEntityCount(Long memoId, boolean plus) {
         ItemEntity entity = entityItemDao.load(memoId);
         int count = entity.getItemCount();
-        count++;
+        if (plus) {
+            count++;
+        } else {
+            count--;
+        }
         entity.setItemCount(count);
         entityItemDao.update(entity);
+        RxBus.getInstance()
+                .post(new MainRefreshEvent());
     }
 }

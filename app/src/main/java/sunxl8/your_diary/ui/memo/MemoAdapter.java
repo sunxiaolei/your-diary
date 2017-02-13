@@ -61,7 +61,7 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ItemViewHolder
             holder.ivDelete.setVisibility(View.GONE);
         }
         holder.ivDelete.setOnClickListener(view -> {
-            mPresenter.deleteItem(entity.getId());
+            mPresenter.deleteItem(entity.getId(), entity.getMemoId());
             mList.remove(position);
             notifyDataSetChanged();
         });
