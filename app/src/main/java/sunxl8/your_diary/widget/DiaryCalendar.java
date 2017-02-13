@@ -70,8 +70,6 @@ public class DiaryCalendar {
 
     }
 
-    private Object syncObj;
-
     public void onDraw(Canvas canvas) {
         canvas.drawColor(Color.WHITE);
         updateCalendar(canvas);
@@ -81,7 +79,6 @@ public class DiaryCalendar {
         canvas.drawColor(Color.WHITE);
         dateChange = 1;
         calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + dateChange);
-//        calendar.add(Calendar.DATE, 1);
         updateCalendar(canvas);
     }
 
@@ -89,7 +86,6 @@ public class DiaryCalendar {
         canvas.drawColor(Color.WHITE);
         dateChange = -1;
         calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + dateChange);
-//        calendar.add(Calendar.DATE, -1);
         updateCalendar(canvas);
     }
 
