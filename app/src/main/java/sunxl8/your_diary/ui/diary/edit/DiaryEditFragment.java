@@ -1,12 +1,16 @@
 package sunxl8.your_diary.ui.diary.edit;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.model.InvokeParam;
@@ -19,6 +23,7 @@ import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import sunxl8.your_diary.R;
@@ -113,7 +118,12 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
     @Override
     public void takeSuccess(TResult result) {
         ArrayList<TImage> images = result.getImages();
-        etContent.setRichText("<img src=" + images.get(0).getOriginalPath() + "/>");
+        Glide.with(getActivity()).load(images.get(0).getOriginalPath()).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                etContent.addImage(resource, images.get(0).getOriginalPath());
+            }
+        });
     }
 
     @Override
