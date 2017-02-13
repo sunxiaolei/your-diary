@@ -25,7 +25,7 @@ public abstract class BaseFragment<T extends IPresenter> extends RxFragment impl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(setContentViewId(), container, false);
-        mUnbinder = ButterKnife.bind(view);
+        mUnbinder = ButterKnife.bind(this, view);
         if (mPresenter == null) {
             mPresenter = createPresenter();
             mPresenter.attachView(this);

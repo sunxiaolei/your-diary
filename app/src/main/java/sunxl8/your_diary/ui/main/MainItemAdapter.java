@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.db.entity.ItemEntity;
+import sunxl8.your_diary.ui.diary.DiaryActivity;
 import sunxl8.your_diary.ui.memo.MemoActivity;
 
 /**
@@ -62,6 +63,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<MainItemAdapter.ItemVi
                 case 0:
                     break;
                 case 1:
+                    DiaryActivity.startDiaryActivity(mContext);
                     break;
                 case 2:
                     MemoActivity.startMemoActivity(mContext, entity.getId(), entity.getItemTitle());
