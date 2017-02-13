@@ -18,6 +18,7 @@ import butterknife.BindView;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.base.IPresenter;
+import sunxl8.your_diary.ui.diary.calendar.DiaryCalendarFragment;
 import sunxl8.your_diary.ui.diary.list.DiaryListFragment;
 
 /**
@@ -47,8 +48,8 @@ public class DiaryActivity extends BaseActivity {
     @Override
     protected void initView() {
         mTabLayout.setTabData(mTitles);
-        mFragments.add(new DiaryListFragment());
-        mFragments.add(new DiaryListFragment());
+        mFragments.add(DiaryListFragment.newInstance());
+        mFragments.add(DiaryCalendarFragment.newInstance());
         mFragments.add(new DiaryListFragment());
         mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         RxViewPager.pageSelections(mViewPager)
