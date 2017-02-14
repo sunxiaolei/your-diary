@@ -20,6 +20,7 @@ public abstract class BaseFragment<T extends IPresenter> extends RxFragment impl
 
     private T mPresenter;
     private Unbinder mUnbinder;
+    protected BaseActivity mActivity;
 
     @Nullable
     @Override
@@ -30,6 +31,7 @@ public abstract class BaseFragment<T extends IPresenter> extends RxFragment impl
             mPresenter = createPresenter();
             mPresenter.attachView(this);
         }
+        mActivity = (BaseActivity) getActivity();
         initView();
         initData();
         return view;

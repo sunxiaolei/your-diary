@@ -5,32 +5,47 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.jakewharton.rxbinding.support.v4.view.RxViewPager;
+import com.jakewharton.rxbinding.view.RxView;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
+import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.InvokeParam;
+import com.jph.takephoto.model.LubanOptions;
 import com.jph.takephoto.model.TContextWrap;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
+import com.jph.takephoto.model.TakePhotoOptions;
 import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
+import com.trello.rxlifecycle.android.FragmentEvent;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
+import me.shaohui.advancedluban.Luban;
+import rx.functions.Action1;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.base.BaseFragment;
 import sunxl8.your_diary.ui.diary.calendar.DiaryCalendarContract;
 import sunxl8.your_diary.ui.diary.calendar.DiaryCalendarPresenter;
+import sunxl8.your_diary.util.TimeUtils;
 import sunxl8.your_diary.widget.DiaryCalendarView;
 import sunxl8.your_diary.widget.RichEditTextView;
 
@@ -40,10 +55,25 @@ import sunxl8.your_diary.widget.RichEditTextView;
 
 public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implements DiaryEditContract.View, TakePhoto.TakeResultListener, InvokeListener {
 
+    @BindView(R.id.tv_diary_edit_date)
+    TextView tvDate;
+    @BindView(R.id.tv_diary_edit_location)
+    TextView tvLocation;
+    @BindView(R.id.spinner_diary_edit_mood)
+    Spinner spinnerMood;
+    @BindView(R.id.spinner_diary_edit_weather)
+    Spinner spinnerWeather;
     @BindView(R.id.et_diary_edit_content)
     RichEditTextView etContent;
-    @BindView(R.id.btn_test)
-    Button btnTest;
+    @BindView(R.id.layout_diary_edit_location)
+    RelativeLayout layoutLocation;
+    @BindView(R.id.layout_diary_edit_picture)
+    RelativeLayout layoutPicture;
+    @BindView(R.id.layout_diary_edit_clean)
+    RelativeLayout layoutClean;
+    @BindView(R.id.layout_diary_edit_save)
+    RelativeLayout layoutSave;
+
 
     public static DiaryEditFragment newInstance() {
         DiaryEditFragment fragment = new DiaryEditFragment();
@@ -64,12 +94,33 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
 
     @Override
     protected void initView() {
-        btnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getTakePhoto().onPickFromGallery();
-            }
-        });
+        tvDate.setText(TimeUtils.getCurTimeString(new SimpleDateFormat("yyyy-MM-dd HH:mm")));
+        tvLocation.setText("");
+
+        String[] test = {"晴", "阴", "雨", "雪"};
+        spinnerMood.setAdapter(new ArrayAdapter<String>(mActivity, android.R.layout.simple_list_item_1, test));
+        spinnerWeather.setAdapter(new ArrayAdapter<String>(mActivity, android.R.layout.simple_list_item_1, test));
+
+        RxView.clicks(layoutLocation)
+                .compose(this.bindUntilEvent(FragmentEvent.DESTROY))
+                .subscribe(aVoid -> {
+                    mActivity.showToast("Location");
+                });
+        RxView.clicks(layoutPicture)
+                .compose(this.bindUntilEvent(FragmentEvent.DESTROY))
+                .subscribe(aVoid -> {
+                    getTakePhoto().onPickFromGallery();
+                });
+        RxView.clicks(layoutClean)
+                .compose(this.bindUntilEvent(FragmentEvent.DESTROY))
+                .subscribe(aVoid -> {
+
+                });
+        RxView.clicks(layoutSave)
+                .compose(this.bindUntilEvent(FragmentEvent.DESTROY))
+                .subscribe(aVoid -> {
+
+                });
     }
 
     @Override
@@ -77,6 +128,7 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
     }
 
     private TakePhoto takePhoto;
+    private TakePhotoOptions options;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,7 +163,18 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
             takePhoto = (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(this, this));
+
+//            CompressConfig config = new CompressConfig.Builder()
+//                    .setMaxSize(800*600)
+//                    .setMaxPixel(800)
+//                    .enableReserveRaw(true)
+//                    .create();
+//            takePhoto.onEnableCompress(config, true);
+            options = new TakePhotoOptions.Builder()
+                    .setWithOwnGallery(true)
+                    .create();
         }
+        takePhoto.setTakePhotoOptions(options);
         return takePhoto;
     }
 
