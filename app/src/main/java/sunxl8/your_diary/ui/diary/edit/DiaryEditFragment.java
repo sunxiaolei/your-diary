@@ -237,6 +237,9 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
 
     @Override
     public void saveDone() {
+        mActivity.hideKeyboard();
+        mActivity.showToast("保存成功");
         RxBus.getInstance().post(new DiaryEditDoneEvent());
     }
+
 }

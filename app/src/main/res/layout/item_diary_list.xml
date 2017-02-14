@@ -11,6 +11,7 @@
         android:id="@+id/tv_diray_list_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:minHeight="60dp"
         android:text="10"
@@ -21,6 +22,7 @@
         android:id="@+id/cv_diary_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:background="@android:color/white"
         android:minHeight="100dp"/>
 
