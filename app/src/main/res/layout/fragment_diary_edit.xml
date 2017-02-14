@@ -1,19 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/layout_diary_edit_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_diary_edit"
+        android:minHeight="45dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/tv_diary_edit_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="标题"
+            android:textColor="#333333"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/et_diary_edit_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_diary_edit_title"
+            android:textColor="#333333"
+            android:textSize="16sp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_diary_edit_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_diary_edit_top"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_diary_edit"
+        android:minHeight="45dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/tv_diary_edit_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="2017-1-25"
+            android:textColor="#666666"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_diary_edit_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="Shanghai"
+            android:textColor="#666666"
+            android:textSize="14sp"/>
+
+        <Spinner
+            android:id="@+id/spinner_diary_edit_mood"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:textColor="#666666"
+            android:textSize="14sp"/>
+
+        <Spinner
+            android:id="@+id/spinner_diary_edit_weather"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:textColor="#666666"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_diary_edit_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
+        android:minHeight="40dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/layout_diary_edit_location"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_btn_login">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/ic_location"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_diary_edit_picture"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_btn_login">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/ic_picture"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_diary_edit_clean"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_btn_login">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/ic_close"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_diary_edit_save"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_btn_login">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/ic_save"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <sunxl8.your_diary.widget.RichEditTextView
         android:id="@+id/et_diary_edit_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:layout_above="@id/layout_diary_edit_bottom"
+        android:layout_below="@id/layout_diary_edit_option"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_diary_edit"
+        android:gravity="start"
+        android:padding="10dp"/>
 
     <Button
         android:id="@+id/btn_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="add"/>
+        android:text="add"
+        android:visibility="gone"/>
 
-</LinearLayout>
+</RelativeLayout>

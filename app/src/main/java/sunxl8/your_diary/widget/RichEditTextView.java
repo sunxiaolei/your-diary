@@ -50,14 +50,7 @@ public class RichEditTextView extends EditText {
         Log.i("imgpath", filePath);
         String pathTag = "<img src=\"" + filePath + "\"/>";
         SpannableString spanString = new SpannableString(pathTag);
-        // 获取屏幕的宽高
-        int paddingLeft = getPaddingLeft();
-        int paddingRight = getPaddingRight();
-        int bmWidth = bitmap.getWidth();//图片高度
-        int bmHeight = bitmap.getHeight();//图片宽度
-        int zoomWidth = getWidth() - (paddingLeft + paddingRight);
-        int zoomHeight = (int) (((float) zoomWidth / (float) bmWidth) * bmHeight);
-        Bitmap newBitmap = zoomImage(bitmap, zoomWidth, zoomHeight);
+        Bitmap newBitmap = zoomImage(bitmap);
         ImageSpan imgSpan = new ImageSpan(mContext, newBitmap);
         spanString.setSpan(imgSpan, 0, pathTag.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -80,14 +73,7 @@ public class RichEditTextView extends EditText {
         Log.i("imgpath", filePath);
         String pathTag = "<img src=\"" + filePath + "\"/>";
         SpannableString spanString = new SpannableString(pathTag);
-        // 获取屏幕的宽高
-        int paddingLeft = getPaddingLeft();
-        int paddingRight = getPaddingRight();
-        int bmWidth = bitmap.getWidth();//图片高度
-        int bmHeight = bitmap.getHeight();//图片宽度
-        int zoomWidth = getWidth() - (paddingLeft + paddingRight);
-        int zoomHeight = (int) (((float) zoomWidth / (float) bmWidth) * bmHeight);
-        Bitmap newBitmap = zoomImage(bitmap, zoomWidth, zoomHeight);
+        Bitmap newBitmap = zoomImage(bitmap);
         ImageSpan imgSpan = new ImageSpan(mContext, newBitmap);
         spanString.setSpan(imgSpan, 0, pathTag.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -107,13 +93,7 @@ public class RichEditTextView extends EditText {
         SpannableString spanString = new SpannableString(pathTag);
         // 获取屏幕的宽高
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.img_default);
-        int paddingLeft = getPaddingLeft();
-        int paddingRight = getPaddingRight();
-        int bmWidth = bitmap.getWidth();//图片高度
-        int bmHeight = bitmap.getHeight();//图片宽度
-        int zoomWidth = getWidth() - (paddingLeft + paddingRight);
-        int zoomHeight = (int) (((float) zoomWidth / (float) bmWidth) * bmHeight);
-        Bitmap newBitmap = zoomImage(bitmap, zoomWidth, zoomHeight);
+        Bitmap newBitmap = zoomImage(bitmap);
         ImageSpan imgSpan = new ImageSpan(mContext, newBitmap);
         spanString.setSpan(imgSpan, 0, pathTag.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -128,28 +108,27 @@ public class RichEditTextView extends EditText {
      * 对图片进行缩放
      *
      * @param bgimage
-     * @param newWidth
-     * @param newHeight
      * @return
      */
-    private Bitmap zoomImage(Bitmap bgimage, double newWidth, double newHeight) {
-        // 获取这个图片的宽和高
-        float width = bgimage.getWidth();
-        float height = bgimage.getHeight();
-        //如果宽度为0 保持原图
-        if (newWidth == 0) {
-            newWidth = width;
-            newHeight = height;
-        }
+    private Bitmap zoomImage(Bitmap bgimage) {
+        int paddingLeft = getPaddingLeft();
+        int paddingRight = getPaddingRight();
+        int bmWidth = bgimage.getWidth();
+        int bmHeight = bgimage.getHeight();
+        int zoomWidth = getWidth() - (paddingLeft + paddingRight);
+        int zoomHeight = (int) (((float) zoomWidth / (float) bmWidth) * bmHeight);
+
+        int newHeight = bmHeight > 600 ? 600 : bmHeight;
+        int newWidth = newHeight * bmWidth / bmHeight;
         // 创建操作图片用的matrix对象
         Matrix matrix = new Matrix();
         // 计算宽高缩放率
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
+        float scaleWidth = ((float) newWidth) / bmWidth;
+        float scaleHeight = ((float) newHeight) / bmHeight;
         // 缩放图片动作
         matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap bitmap = Bitmap.createBitmap(bgimage, 0, 0, (int) width,
-                (int) height, matrix, true);
+        Bitmap bitmap = Bitmap.createBitmap(bgimage, 0, 0, (int) bmWidth,
+                (int) bmHeight, matrix, true);
         return bitmap;
     }
 
