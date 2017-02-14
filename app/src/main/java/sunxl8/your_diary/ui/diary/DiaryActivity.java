@@ -15,12 +15,15 @@ import com.trello.rxlifecycle.android.ActivityEvent;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import rx.functions.Action1;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.base.IPresenter;
+import sunxl8.your_diary.event.DiaryEditDoneEvent;
 import sunxl8.your_diary.ui.diary.calendar.DiaryCalendarFragment;
 import sunxl8.your_diary.ui.diary.edit.DiaryEditFragment;
 import sunxl8.your_diary.ui.diary.list.DiaryListFragment;
+import sunxl8.your_diary.util.RxBus;
 
 /**
  * Created by sunxl8 on 2017/2/13.
@@ -53,6 +56,7 @@ public class DiaryActivity extends BaseActivity {
         mFragments.add(DiaryCalendarFragment.newInstance());
         mFragments.add(DiaryEditFragment.newInstance());
         mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        mViewPager.setOffscreenPageLimit(2);
         RxViewPager.pageSelections(mViewPager)
                 .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(integer -> {
@@ -69,6 +73,13 @@ public class DiaryActivity extends BaseActivity {
 
             }
         });
+
+        RxBus.getInstance().onEvent(DiaryEditDoneEvent.class)
+                .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(event -> {
+                    mViewPager.setCurrentItem(0);
+
+                });
     }
 
     @Override

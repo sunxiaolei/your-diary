@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -34,6 +36,7 @@ import com.trello.rxlifecycle.android.FragmentEvent;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -43,8 +46,12 @@ import rx.functions.Action1;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.base.BaseFragment;
+import sunxl8.your_diary.db.entity.DiaryEntity;
+import sunxl8.your_diary.event.DiaryEditDoneEvent;
+import sunxl8.your_diary.ui.diary.DiaryActivity;
 import sunxl8.your_diary.ui.diary.calendar.DiaryCalendarContract;
 import sunxl8.your_diary.ui.diary.calendar.DiaryCalendarPresenter;
+import sunxl8.your_diary.util.RxBus;
 import sunxl8.your_diary.util.TimeUtils;
 import sunxl8.your_diary.widget.DiaryCalendarView;
 import sunxl8.your_diary.widget.RichEditTextView;
@@ -55,6 +62,8 @@ import sunxl8.your_diary.widget.RichEditTextView;
 
 public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implements DiaryEditContract.View, TakePhoto.TakeResultListener, InvokeListener {
 
+    @BindView(R.id.et_diary_edit_title)
+    EditText etTitle;
     @BindView(R.id.tv_diary_edit_date)
     TextView tvDate;
     @BindView(R.id.tv_diary_edit_location)
@@ -84,7 +93,7 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
 
     @Override
     protected DiaryEditPresenter createPresenter() {
-        return new DiaryEditPresenter((BaseActivity) getActivity());
+        return new DiaryEditPresenter(mActivity);
     }
 
     @Override
@@ -119,7 +128,7 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
         RxView.clicks(layoutSave)
                 .compose(this.bindUntilEvent(FragmentEvent.DESTROY))
                 .subscribe(aVoid -> {
-
+                    save();
                 });
     }
 
@@ -210,4 +219,24 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
         return type;
     }
 
+    private void save() {
+        if (TextUtils.isEmpty(etTitle.getText().toString())) {
+            mActivity.showToast("标题不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(etContent.getRichText())) {
+            mActivity.showToast("内容不能为空");
+            return;
+        }
+        DiaryEntity entity = new DiaryEntity();
+        entity.setTitle(etTitle.getText().toString());
+        entity.setDate(new Date());
+        entity.setContent(etContent.getRichText());
+        mPresenter.save(entity);
+    }
+
+    @Override
+    public void saveDone() {
+        RxBus.getInstance().post(new DiaryEditDoneEvent());
+    }
 }
