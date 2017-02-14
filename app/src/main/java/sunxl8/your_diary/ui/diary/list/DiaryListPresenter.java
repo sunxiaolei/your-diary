@@ -11,6 +11,7 @@ import sunxl8.your_diary.base.BaseApplication;
 import sunxl8.your_diary.base.BasePresenter;
 import sunxl8.your_diary.db.dao.DaoSession;
 import sunxl8.your_diary.db.dao.DiaryEntityDao;
+import sunxl8.your_diary.db.dao.MemoEntityDao;
 import sunxl8.your_diary.db.entity.DiaryEntity;
 import sunxl8.your_diary.util.TimeUtils;
 
@@ -29,24 +30,25 @@ public class DiaryListPresenter extends BasePresenter<DiaryListContract.View> im
     }
 
     @Override
-    public void getDiaryList() {
+    public void getDiaryList(Long diaryId) {
         Query query = mEntityDao.queryBuilder()
+                .where(DiaryEntityDao.Properties.DiaryId.eq(diaryId))
                 .orderDesc(DiaryEntityDao.Properties.Date)
                 .build();
         List<DiaryEntity> list = getList(query.list());
         mView.showDiaryList(list);
     }
 
-    private List<DiaryEntity> getList(List<DiaryEntity> list){
+    private List<DiaryEntity> getList(List<DiaryEntity> list) {
         List<String> dateList = new ArrayList<>();
         List<DiaryEntity> listNew = new ArrayList<>();
-        for (DiaryEntity entity:list){
+        for (DiaryEntity entity : list) {
             String date = TimeUtils.date2String(entity.getDate(), new SimpleDateFormat("yyyy-MM-dd"));
             if (!dateList.contains(date)) {
                 dateList.add(date);
                 entity.setShowDate(true);
                 mEntityDao.update(entity);
-            }else {
+            } else {
                 entity.setShowDate(false);
                 mEntityDao.update(entity);
             }

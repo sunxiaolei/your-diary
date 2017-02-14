@@ -30,7 +30,8 @@ public class DiaryEntityDao extends AbstractDao<DiaryEntity, Long> {
         public final static Property Weather = new Property(3, int.class, "weather", false, "WEATHER");
         public final static Property Mood = new Property(4, int.class, "mood", false, "MOOD");
         public final static Property Date = new Property(5, java.util.Date.class, "date", false, "DATE");
-        public final static Property ShowDate = new Property(6, boolean.class, "showDate", false, "SHOW_DATE");
+        public final static Property DiaryId = new Property(6, Long.class, "diaryId", false, "DIARY_ID");
+        public final static Property ShowDate = new Property(7, boolean.class, "showDate", false, "SHOW_DATE");
     }
 
 
@@ -52,7 +53,8 @@ public class DiaryEntityDao extends AbstractDao<DiaryEntity, Long> {
                 "\"WEATHER\" INTEGER NOT NULL ," + // 3: weather
                 "\"MOOD\" INTEGER NOT NULL ," + // 4: mood
                 "\"DATE\" INTEGER," + // 5: date
-                "\"SHOW_DATE\" INTEGER NOT NULL );"); // 6: showDate
+                "\"DIARY_ID\" INTEGER," + // 6: diaryId
+                "\"SHOW_DATE\" INTEGER NOT NULL );"); // 7: showDate
     }
 
     /** Drops the underlying database table. */
@@ -86,7 +88,12 @@ public class DiaryEntityDao extends AbstractDao<DiaryEntity, Long> {
         if (date != null) {
             stmt.bindLong(6, date.getTime());
         }
-        stmt.bindLong(7, entity.getShowDate() ? 1L: 0L);
+ 
+        Long diaryId = entity.getDiaryId();
+        if (diaryId != null) {
+            stmt.bindLong(7, diaryId);
+        }
+        stmt.bindLong(8, entity.getShowDate() ? 1L: 0L);
     }
 
     @Override
@@ -114,7 +121,12 @@ public class DiaryEntityDao extends AbstractDao<DiaryEntity, Long> {
         if (date != null) {
             stmt.bindLong(6, date.getTime());
         }
-        stmt.bindLong(7, entity.getShowDate() ? 1L: 0L);
+ 
+        Long diaryId = entity.getDiaryId();
+        if (diaryId != null) {
+            stmt.bindLong(7, diaryId);
+        }
+        stmt.bindLong(8, entity.getShowDate() ? 1L: 0L);
     }
 
     @Override
@@ -131,7 +143,8 @@ public class DiaryEntityDao extends AbstractDao<DiaryEntity, Long> {
             cursor.getInt(offset + 3), // weather
             cursor.getInt(offset + 4), // mood
             cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)), // date
-            cursor.getShort(offset + 6) != 0 // showDate
+            cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6), // diaryId
+            cursor.getShort(offset + 7) != 0 // showDate
         );
         return entity;
     }
@@ -144,7 +157,8 @@ public class DiaryEntityDao extends AbstractDao<DiaryEntity, Long> {
         entity.setWeather(cursor.getInt(offset + 3));
         entity.setMood(cursor.getInt(offset + 4));
         entity.setDate(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
-        entity.setShowDate(cursor.getShort(offset + 6) != 0);
+        entity.setDiaryId(cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6));
+        entity.setShowDate(cursor.getShort(offset + 7) != 0);
      }
     
     @Override

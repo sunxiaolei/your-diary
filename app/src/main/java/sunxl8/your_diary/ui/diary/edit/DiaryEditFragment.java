@@ -83,10 +83,12 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
     @BindView(R.id.layout_diary_edit_save)
     RelativeLayout layoutSave;
 
+    private Long diaryId;
 
-    public static DiaryEditFragment newInstance() {
+    public static DiaryEditFragment newInstance(Long id) {
         DiaryEditFragment fragment = new DiaryEditFragment();
         Bundle bundle = new Bundle();
+        bundle.putLong("id", id);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -134,6 +136,7 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
 
     @Override
     protected void initData() {
+        diaryId = getArguments().getLong("id", 0);
     }
 
     private TakePhoto takePhoto;
@@ -232,7 +235,8 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
         entity.setTitle(etTitle.getText().toString());
         entity.setDate(new Date());
         entity.setContent(etContent.getRichText());
-        mPresenter.save(entity);
+        entity.setDiaryId(diaryId);
+        mPresenter.save(diaryId, entity);
     }
 
     @Override

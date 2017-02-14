@@ -15,6 +15,6 @@ public interface DiaryEditContract {
     }
 
     interface Presenter extends IPresenter<View> {
-        void save(DiaryEntity entity);
+        void save(Long diaryId, DiaryEntity entity);
     }
 }

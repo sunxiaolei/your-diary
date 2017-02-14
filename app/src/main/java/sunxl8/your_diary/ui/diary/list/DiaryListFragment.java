@@ -33,9 +33,12 @@ public class DiaryListFragment extends BaseFragment<DiaryListPresenter> implemen
 
     private DiaryListAdapter mAdapter;
 
-    public static DiaryListFragment newInstance() {
+    private Long diaryId;
+
+    public static DiaryListFragment newInstance(Long id) {
         DiaryListFragment fragment = new DiaryListFragment();
         Bundle bundle = new Bundle();
+        bundle.putLong("id",id);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -62,7 +65,8 @@ public class DiaryListFragment extends BaseFragment<DiaryListPresenter> implemen
 
     @Override
     protected void initData() {
-        mPresenter.getDiaryList();
+        diaryId = getArguments().getLong("id",0);
+        mPresenter.getDiaryList(diaryId);
     }
 
     @Override
