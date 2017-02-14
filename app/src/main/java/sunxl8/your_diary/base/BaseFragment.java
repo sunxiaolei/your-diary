@@ -18,7 +18,7 @@ import butterknife.Unbinder;
 
 public abstract class BaseFragment<T extends IPresenter> extends RxFragment implements IView {
 
-    private T mPresenter;
+    protected T mPresenter;
     private Unbinder mUnbinder;
     protected BaseActivity mActivity;
 
@@ -27,11 +27,11 @@ public abstract class BaseFragment<T extends IPresenter> extends RxFragment impl
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(setContentViewId(), container, false);
         mUnbinder = ButterKnife.bind(this, view);
+        mActivity = (BaseActivity) getActivity();
         if (mPresenter == null) {
             mPresenter = createPresenter();
             mPresenter.attachView(this);
         }
-        mActivity = (BaseActivity) getActivity();
         initView();
         initData();
         return view;
