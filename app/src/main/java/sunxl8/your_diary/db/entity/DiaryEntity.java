@@ -21,16 +21,18 @@ public class DiaryEntity {
     private int weather;
     private int mood;
     private Date date;
+    private Long diaryId;
     private boolean showDate;
-    @Generated(hash = 1823474377)
+    @Generated(hash = 1533448043)
     public DiaryEntity(Long id, String Title, String content, int weather, int mood,
-            Date date, boolean showDate) {
+            Date date, Long diaryId, boolean showDate) {
         this.id = id;
         this.Title = Title;
         this.content = content;
         this.weather = weather;
         this.mood = mood;
         this.date = date;
+        this.diaryId = diaryId;
         this.showDate = showDate;
     }
     @Generated(hash = 1642920447)
@@ -77,5 +79,11 @@ public class DiaryEntity {
     }
     public void setShowDate(boolean showDate) {
         this.showDate = showDate;
+    }
+    public Long getDiaryId() {
+        return this.diaryId;
+    }
+    public void setDiaryId(Long diaryId) {
+        this.diaryId = diaryId;
     }
 }

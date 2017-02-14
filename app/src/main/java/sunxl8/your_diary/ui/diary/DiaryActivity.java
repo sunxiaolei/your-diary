@@ -36,6 +36,8 @@ public class DiaryActivity extends BaseActivity {
     @BindView(R.id.vp_diary)
     ViewPager mViewPager;
 
+    private Long diaryId;
+
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private String[] mTitles = {"项目", "日历", "日记"};
 
@@ -51,10 +53,11 @@ public class DiaryActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        diaryId = getIntent().getLongExtra("id",0);
         mTabLayout.setTabData(mTitles);
-        mFragments.add(DiaryListFragment.newInstance());
+        mFragments.add(DiaryListFragment.newInstance(diaryId));
         mFragments.add(DiaryCalendarFragment.newInstance());
-        mFragments.add(DiaryEditFragment.newInstance());
+        mFragments.add(DiaryEditFragment.newInstance(diaryId));
         mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         mViewPager.setOffscreenPageLimit(2);
         RxViewPager.pageSelections(mViewPager)
@@ -87,8 +90,9 @@ public class DiaryActivity extends BaseActivity {
 
     }
 
-    public static void startDiaryActivity(Context context) {
+    public static void startDiaryActivity(Context context,Long id) {
         Intent intent = new Intent(context, DiaryActivity.class);
+        intent.putExtra("id",id);
         context.startActivity(intent);
     }
 

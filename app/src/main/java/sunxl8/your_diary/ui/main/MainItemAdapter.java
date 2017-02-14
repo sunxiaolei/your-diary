@@ -63,7 +63,7 @@ public class MainItemAdapter extends RecyclerView.Adapter<MainItemAdapter.ItemVi
                 case 0:
                     break;
                 case 1:
-                    DiaryActivity.startDiaryActivity(mContext);
+                    DiaryActivity.startDiaryActivity(mContext, entity.getId());
                     break;
                 case 2:
                     MemoActivity.startMemoActivity(mContext, entity.getId(), entity.getItemTitle());
@@ -87,7 +87,6 @@ public class MainItemAdapter extends RecyclerView.Adapter<MainItemAdapter.ItemVi
         TextView tvItemCount;
         @BindView(R.id.iv_item_main_type)
         ImageView ivItemType;
-
 
         public ItemViewHolder(View itemView) {
             super(itemView);
