@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import com.trello.rxlifecycle.android.ActivityEvent;
 import com.trello.rxlifecycle.android.FragmentEvent;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import sunxl8.your_diary.base.BaseFragment;
 import sunxl8.your_diary.db.entity.DiaryEntity;
 import sunxl8.your_diary.event.DiaryEditDoneEvent;
 import sunxl8.your_diary.util.RxBus;
+import sunxl8.your_diary.util.TimeUtils;
 
 /**
  * Created by sunxl8 on 2017/2/13.
@@ -30,7 +32,6 @@ public class DiaryListFragment extends BaseFragment<DiaryListPresenter> implemen
     RecyclerView rvList;
 
     private DiaryListAdapter mAdapter;
-    private List<DiaryEntity> mList;
 
     public static DiaryListFragment newInstance() {
         DiaryListFragment fragment = new DiaryListFragment();
@@ -67,8 +68,7 @@ public class DiaryListFragment extends BaseFragment<DiaryListPresenter> implemen
     @Override
     public void showDiaryList(List<DiaryEntity> list) {
         if (list != null && list.size() > 0) {
-            mList = list;
-            mAdapter = new DiaryListAdapter(getActivity(), mList);
+            mAdapter = new DiaryListAdapter(getActivity(), list);
             rvList.setAdapter(mAdapter);
         }
     }
