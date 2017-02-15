@@ -22,13 +22,13 @@
         android:id="@+id/cv_diary_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:minHeight="100dp">
+        android:layout_marginTop="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_item_diary"
+            android:minHeight="100dp"
             android:paddingBottom="10dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
