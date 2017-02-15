@@ -1,7 +1,7 @@
 package sunxl8.your_diary.ui.diary.list;
 
-import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,8 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,9 +30,6 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
 
     private Context mContext;
     private List<DiaryEntity> mList;
-
-    private int[] icWeather = {R.drawable.ic_weather};
-    private int[] icMood = {R.drawable.ic_weather};
 
     public DiaryListAdapter(Context context, List<DiaryEntity> list) {
         mContext = context;
@@ -75,10 +70,17 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
         String week = TimeUtils.date2String(entity.getDate(), new SimpleDateFormat("EEE"));
         String time = TimeUtils.date2String(entity.getDate(), new SimpleDateFormat("HH:mm"));
         String month = TimeUtils.date2String(entity.getDate(), new SimpleDateFormat("MM")) + "月";
-        String title = entity.getTitle();
-        String subhead = entity.getSubHead();
-        String content = entity.getContent();
-        MyDiaryDialog dialog = MyDiaryDialog.newInstance(month, date, time, week, title, subhead, content);
+        Bundle bundle = new Bundle();
+        bundle.putString("month", month);
+        bundle.putString("date", date);
+        bundle.putString("time", time);
+        bundle.putString("week", week);
+        bundle.putString("title", entity.getTitle());
+        bundle.putString("subhead", entity.getSubHead());
+        bundle.putString("content", entity.getContent());
+        bundle.putInt("mood", entity.getMood());
+        bundle.putInt("weather", entity.getWeather());
+        MyDiaryDialog dialog = MyDiaryDialog.newInstance(bundle);
         dialog.show(((BaseActivity) mContext).getSupportFragmentManager(), "");
     }
 

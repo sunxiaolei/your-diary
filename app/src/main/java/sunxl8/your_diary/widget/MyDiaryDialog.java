@@ -3,6 +3,7 @@ package sunxl8.your_diary.widget;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.style.IconMarginSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
 import rx.functions.Action1;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
+import sunxl8.your_diary.constant.Constant;
 import sunxl8.your_diary.db.entity.DiaryEntity;
 import sunxl8.your_diary.util.TimeUtils;
 
@@ -36,8 +38,6 @@ public class MyDiaryDialog extends DialogFragment {
     TextView tvDate;
     @BindView(R.id.tv_diary_dialog_time)
     TextView tvTime;
-    @BindView(R.id.tv_diary_dialog_other)
-    TextView tvOther;
     @BindView(R.id.iv_diary_dialog_close)
     ImageView ivClose;
     @BindView(R.id.tv_diary_dialog_title)
@@ -46,6 +46,10 @@ public class MyDiaryDialog extends DialogFragment {
     TextView tvSubhead;
     @BindView(R.id.et_diary_dialog_content)
     RichEditTextView etContent;
+    @BindView(R.id.iv_diary_dialog_weather)
+    ImageView ivWeather;
+    @BindView(R.id.iv_diary_dialog_mood)
+    ImageView ivMood;
 
     private String mMonth;
     private String mDate;
@@ -54,18 +58,11 @@ public class MyDiaryDialog extends DialogFragment {
     private String mTitle;
     private String mSubhead;
     private String mContent;
+    private int mMood;
+    private int mWeather;
 
-    public static MyDiaryDialog newInstance(
-            String month, String date, String time, String week, String title, String subhead, String content) {
+    public static MyDiaryDialog newInstance(Bundle bundle) {
         MyDiaryDialog dialog = new MyDiaryDialog();
-        Bundle bundle = new Bundle();
-        bundle.putString("month", month);
-        bundle.putString("date", date);
-        bundle.putString("time", time);
-        bundle.putString("week", week);
-        bundle.putString("title", title);
-        bundle.putString("subhead", subhead);
-        bundle.putString("content", content);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -82,6 +79,8 @@ public class MyDiaryDialog extends DialogFragment {
         mTitle = getArguments().getString("title");
         mSubhead = getArguments().getString("subhead");
         mContent = getArguments().getString("content");
+        mMood = getArguments().getInt("mood");
+        mWeather = getArguments().getInt("weather");
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_dialog_diary, container, false);
         ButterKnife.bind(this, view);
         init();
@@ -92,10 +91,11 @@ public class MyDiaryDialog extends DialogFragment {
         tvMonth.setText(mMonth);
         tvDate.setText(mDate);
         tvTime.setText(mTime + "   " + mWeek);
-        tvOther.setText("");
         tvTitle.setText(mTitle);
         tvSubhead.setText(mSubhead);
         etContent.setRichText(mContent);
+        ivWeather.setBackgroundResource(Constant.IC_WEATHER[mWeather]);
+        ivMood.setBackgroundResource(Constant.IC_MOOD[mMood]);
         RxView.clicks(ivClose)
                 .compose(((BaseActivity) getActivity()).bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(aVoid -> {
