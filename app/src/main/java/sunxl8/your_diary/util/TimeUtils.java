@@ -2,6 +2,7 @@ package sunxl8.your_diary.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -479,6 +480,24 @@ public class TimeUtils {
     public static boolean isLeapYear(int year) {
         return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
     }
+
+    /**
+     * 根据日期取得星期几
+     *
+     * @param date
+     * @return "日","一","二","三","四","五","六"
+     */
+    public static String getWeek(Date date) {
+        String[] weeks = {"日", "一", "二", "三", "四", "五", "六"};
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int week_index = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        if (week_index < 0) {
+            week_index = 0;
+        }
+        return weeks[week_index];
+    }
+
 
     /**
      * 毫秒与毫秒的倍数
