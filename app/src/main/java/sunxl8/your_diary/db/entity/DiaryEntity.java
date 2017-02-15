@@ -17,17 +17,19 @@ public class DiaryEntity {
     @Id
     private Long id;
     private String Title;
+    private String subHead;
     private String content;
     private int weather;
     private int mood;
     private Date date;
     private Long diaryId;
     private boolean showDate;
-    @Generated(hash = 1533448043)
-    public DiaryEntity(Long id, String Title, String content, int weather, int mood,
-            Date date, Long diaryId, boolean showDate) {
+    @Generated(hash = 256531572)
+    public DiaryEntity(Long id, String Title, String subHead, String content,
+            int weather, int mood, Date date, Long diaryId, boolean showDate) {
         this.id = id;
         this.Title = Title;
+        this.subHead = subHead;
         this.content = content;
         this.weather = weather;
         this.mood = mood;
@@ -85,5 +87,11 @@ public class DiaryEntity {
     }
     public void setDiaryId(Long diaryId) {
         this.diaryId = diaryId;
+    }
+    public String getSubHead() {
+        return this.subHead;
+    }
+    public void setSubHead(String subHead) {
+        this.subHead = subHead;
     }
 }

@@ -27,7 +27,7 @@ android {
 }
 
 greendao {
-    schemaVersion 7
+    schemaVersion 8
     daoPackage 'sunxl8.your_diary.db.dao'
     targetGenDir 'src/main/java'
 }
