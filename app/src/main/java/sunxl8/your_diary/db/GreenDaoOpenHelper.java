@@ -7,8 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import org.greenrobot.greendao.database.Database;
 
 import sunxl8.your_diary.db.dao.DaoMaster;
+import sunxl8.your_diary.db.dao.DiaryEntityDao;
 import sunxl8.your_diary.db.dao.ItemEntityDao;
 import sunxl8.your_diary.db.dao.MemoEntityDao;
+import sunxl8.your_diary.db.entity.DiaryEntity;
 
 /**
  * Description: <br>
@@ -28,6 +30,7 @@ public class GreenDaoOpenHelper extends DaoMaster.OpenHelper {
         super.onUpgrade(db, oldVersion, newVersion);
         MigrationHelper.getInstance().migrate(db,
                 ItemEntityDao.class,
-                MemoEntityDao.class);
+                MemoEntityDao.class,
+                DiaryEntityDao.class);
     }
 }

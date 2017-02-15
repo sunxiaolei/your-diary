@@ -3,6 +3,7 @@ package sunxl8.your_diary.db.entity;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.NotNull;
 
 import java.util.Date;
 
@@ -21,15 +22,17 @@ public class MemoEntity {
     private String memo;
     private Long memoId;
     private Date date;
-    @Generated(hash = 541473078)
-    public MemoEntity(Long id, String memo, Long memoId, Date date) {
+    private boolean line;
+    @Generated(hash = 776636888)
+    public MemoEntity() {
+    }
+    @Generated(hash = 1725894247)
+    public MemoEntity(Long id, String memo, Long memoId, Date date, boolean line) {
         this.id = id;
         this.memo = memo;
         this.memoId = memoId;
         this.date = date;
-    }
-    @Generated(hash = 776636888)
-    public MemoEntity() {
+        this.line = line;
     }
     public Long getId() {
         return this.id;
@@ -54,6 +57,12 @@ public class MemoEntity {
     }
     public void setDate(Date date) {
         this.date = date;
+    }
+    public boolean getLine() {
+        return this.line;
+    }
+    public void setLine(boolean line) {
+        this.line = line;
     }
 
 }

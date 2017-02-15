@@ -110,7 +110,7 @@ public class MemoActivity extends BaseActivity<MemoPresenter> implements MemoCon
     private void showList() {
         findViewById(R.id.layout_memo_add).setVisibility(View.VISIBLE);
         if (mList != null && mList.size() > 0) {
-            mAdapter = new MemoAdapter(this, mList);
+            mAdapter = new MemoAdapter(this, mList, false, mPresenter);
             rvMemo.setAdapter(mAdapter);
         }
     }

@@ -61,6 +61,12 @@ public class MemoPresenter extends BasePresenter<MemoContract.View> implements M
         editItemEntityCount(memoId, false);
     }
 
+    @Override
+    public void setLine(boolean addLine, MemoEntity entity) {
+        entity.setLine(addLine);
+        entityDao.update(entity);
+    }
+
     private void editItemEntityCount(Long memoId, boolean plus) {
         ItemEntity entity = entityItemDao.load(memoId);
         int count = entity.getItemCount();
