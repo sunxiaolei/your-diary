@@ -1,6 +1,8 @@
 package sunxl8.your_diary.ui.diary.list;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +17,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sunxl8.your_diary.R;
+import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.db.entity.DiaryEntity;
 import sunxl8.your_diary.util.TimeUtils;
+import sunxl8.your_diary.widget.MyDiaryDialog;
 
 /**
  * Created by sunxl8 on 2017/2/13.
@@ -56,6 +60,19 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
         holder.tvItemTime.setText(time);
         holder.tvItemTitle.setText(entity.getTitle());
         holder.tvItemSubhead.setText(entity.getSubHead());
+        holder.cardItem.setOnClickListener(v -> showDiary(entity));
+    }
+
+    private void showDiary(DiaryEntity entity) {
+        String date = TimeUtils.date2String(entity.getDate(), new SimpleDateFormat("dd"));
+        String week = TimeUtils.date2String(entity.getDate(), new SimpleDateFormat("EEE"));
+        String time = TimeUtils.date2String(entity.getDate(), new SimpleDateFormat("HH:mm"));
+        String month = TimeUtils.date2String(entity.getDate(), new SimpleDateFormat("MM")) + "月";
+        String title = entity.getTitle();
+        String subhead = entity.getSubHead();
+        String content = entity.getContent();
+        MyDiaryDialog dialog = MyDiaryDialog.newInstance(month, date, time, week, title, subhead, content);
+        dialog.show(((BaseActivity) mContext).getSupportFragmentManager(), "");
     }
 
     @Override
@@ -67,6 +84,8 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
 
         @BindView(R.id.tv_diray_list_date)
         TextView tvDate;
+        @BindView(R.id.cv_diary_list)
+        CardView cardItem;
         @BindView(R.id.tv_item_diary_list_date)
         TextView tvItemDate;
         @BindView(R.id.tv_item_diary_list_week)
