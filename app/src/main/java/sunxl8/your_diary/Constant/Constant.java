@@ -9,6 +9,7 @@ public class Constant {
     public static final String SP_ACCOUNT = "SP_ACCOUNT";
     public static final String SP_ACCOUNT_NUMBER = "SP_ACCOUNT_NUMBER";
     public static final String SP_ACCOUNT_PASSWORD = "SP_ACCOUNT_PASSWORD";
+    public static final String SP_ACCOUNT_NAME = "SP_ACCOUNT_NAME";
 
     public static final int ITEM_TYPE_CONTACT = 0;
     public static final int ITEM_TYPE_DIARY = 1;

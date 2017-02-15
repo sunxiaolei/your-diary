@@ -2,23 +2,31 @@ package sunxl8.your_diary.ui.main;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.jakewharton.rxbinding.support.v4.view.RxViewPager;
 import com.jakewharton.rxbinding.view.RxView;
 import com.shehabic.droppy.DroppyMenuItem;
 import com.shehabic.droppy.DroppyMenuPopup;
 import com.trello.rxlifecycle.android.ActivityEvent;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import rx.Observable;
+import rx.functions.Action1;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.base.BaseApplication;
+import sunxl8.your_diary.constant.Constant;
 import sunxl8.your_diary.db.entity.ItemEntity;
 import sunxl8.your_diary.event.MainRefreshEvent;
 import sunxl8.your_diary.util.RxBus;
+import sunxl8.your_diary.util.SPUtils;
 import sunxl8.your_diary.widget.MyAlertDialog;
 import sunxl8.your_diary.widget.MyEditDialog;
 
@@ -33,6 +41,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     ImageView ivSet;
     @BindView(R.id.rv_main)
     RecyclerView rvItem;
+    @BindView(R.id.tv_main_name)
+    TextView tvName;
 
     private MainItemAdapter itemAdapter;
     private MyEditDialog dialogEdit;
@@ -49,6 +59,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     protected void initView() {
+        SPUtils sp = new SPUtils(this, Constant.SP_ACCOUNT);
+        String name = sp.getString(Constant.SP_ACCOUNT_NAME, "三叶");
+        tvName.setText(name);
         RxView.clicks(ivPlus)
                 .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(aVoid -> {
@@ -64,6 +77,19 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(mainActivity -> {
                     itemAdapter.notifyDataSetChanged();
+                });
+        RxView.clicks(tvName)
+                .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(aVoid -> {
+                    dialogEdit = new MyEditDialog.Builder()
+                            .setTitle("你的名字？")
+                            .setListener(view -> {
+                                sp.putString(Constant.SP_ACCOUNT_NAME, dialogEdit.getEditTextString());
+                                dialogEdit.dismiss();
+                                tvName.setText(dialogEdit.getEditTextString());
+                            })
+                            .build();
+                    dialogEdit.show(getSupportFragmentManager(), "");
                 });
     }
 
@@ -112,6 +138,27 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 .setListener(view -> showToast("add diary"))
                 .build();
         dialog.show(getSupportFragmentManager(), "");
+    }
+
+    private boolean isBack = false;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (!isBack) {
+                showToast("再次点击退出");
+                isBack = true;
+                Observable.timer(2, TimeUnit.SECONDS)
+                        .subscribe(aLong -> {
+                            isBack = false;
+                        });
+                return true;
+            } else {
+                MainActivity.this.finish();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }
