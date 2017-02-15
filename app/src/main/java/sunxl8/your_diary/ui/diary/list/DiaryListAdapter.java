@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -18,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
+import sunxl8.your_diary.constant.Constant;
 import sunxl8.your_diary.db.entity.DiaryEntity;
 import sunxl8.your_diary.util.TimeUtils;
 import sunxl8.your_diary.widget.MyDiaryDialog;
@@ -30,6 +32,9 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
 
     private Context mContext;
     private List<DiaryEntity> mList;
+
+    private int[] icWeather = {R.drawable.ic_weather};
+    private int[] icMood = {R.drawable.ic_weather};
 
     public DiaryListAdapter(Context context, List<DiaryEntity> list) {
         mContext = context;
@@ -61,6 +66,8 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
         holder.tvItemTitle.setText(entity.getTitle());
         holder.tvItemSubhead.setText(entity.getSubHead());
         holder.cardItem.setOnClickListener(v -> showDiary(entity));
+        holder.ivWeather.setBackgroundResource(Constant.IC_WEATHER[entity.getWeather()]);
+        holder.ivMood.setBackgroundResource(Constant.IC_MOOD[entity.getMood()]);
     }
 
     private void showDiary(DiaryEntity entity) {
@@ -96,6 +103,10 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
         TextView tvItemTitle;
         @BindView(R.id.tv_item_diary_list_sunhead)
         TextView tvItemSubhead;
+        @BindView(R.id.iv_item_diary_list_weather)
+        ImageView ivWeather;
+        @BindView(R.id.iv_item_diary_list_mood)
+        ImageView ivMood;
 
         public DiaryListViewHolder(View itemView) {
             super(itemView);
