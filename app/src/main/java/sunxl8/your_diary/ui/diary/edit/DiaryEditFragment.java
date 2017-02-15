@@ -5,12 +5,17 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -46,6 +51,7 @@ import rx.functions.Action1;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.base.BaseFragment;
+import sunxl8.your_diary.constant.Constant;
 import sunxl8.your_diary.db.entity.DiaryEntity;
 import sunxl8.your_diary.event.DiaryEditDoneEvent;
 import sunxl8.your_diary.ui.diary.DiaryActivity;
@@ -110,9 +116,8 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
         tvDate.setText(TimeUtils.getCurTimeString(new SimpleDateFormat("yyyy-MM-dd HH:mm")));
         tvLocation.setText("");
 
-        String[] test = {"晴", "阴", "雨", "雪"};
-        spinnerMood.setAdapter(new ArrayAdapter<String>(mActivity, android.R.layout.simple_list_item_1, test));
-        spinnerWeather.setAdapter(new ArrayAdapter<String>(mActivity, android.R.layout.simple_list_item_1, test));
+        spinnerMood.setAdapter(new MoodAdapter());
+        spinnerWeather.setAdapter(new WeatherAdapter());
 
         RxView.clicks(layoutLocation)
                 .compose(this.bindUntilEvent(FragmentEvent.DESTROY))
@@ -239,6 +244,8 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
         entity.setDate(new Date());
         entity.setContent(etContent.getRichText());
         entity.setDiaryId(diaryId);
+        entity.setWeather(spinnerWeather.getSelectedItemPosition());
+        entity.setMood(spinnerMood.getSelectedItemPosition());
         mPresenter.save(diaryId, entity);
     }
 
@@ -247,6 +254,62 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
         mActivity.hideKeyboard();
         mActivity.showToast("保存成功");
         RxBus.getInstance().post(new DiaryEditDoneEvent());
+    }
+
+    class MoodAdapter extends BaseAdapter {
+
+        int[] ics = Constant.IC_MOOD;
+
+        @Override
+        public int getCount() {
+            return ics.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView = LayoutInflater.from(mActivity).inflate(R.layout.item_diary_edit, parent, false);
+            ImageView iv = (ImageView) convertView.findViewById(R.id.iv_item_diary_edit);
+            iv.setBackgroundResource(ics[position]);
+            return convertView;
+        }
+    }
+
+    class WeatherAdapter extends BaseAdapter {
+
+        int[] ics = Constant.IC_WEATHER;
+
+        @Override
+        public int getCount() {
+            return ics.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView = LayoutInflater.from(mActivity).inflate(R.layout.item_diary_edit, parent, false);
+            ImageView iv = (ImageView) convertView.findViewById(R.id.iv_item_diary_edit);
+            iv.setBackgroundResource(ics[position]);
+            return convertView;
+        }
     }
 
 }

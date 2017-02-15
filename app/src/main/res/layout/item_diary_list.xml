@@ -102,21 +102,22 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/iv_item_diary_list_weather"
                     android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/ic_mood"/>
+                    android:layout_height="20dp"/>
 
                 <ImageView
+                    android:id="@+id/iv_item_diary_list_mood"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_item_diary_list_tag"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/ic_mood"/>
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/ic_mood"/>
+                    android:background="@drawable/ic_tag"/>
             </LinearLayout>
 
         </RelativeLayout>
