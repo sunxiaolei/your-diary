@@ -1,6 +1,8 @@
 package sunxl8.your_diary.ui.memo;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,11 +34,6 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ItemViewHolder
     private boolean isEdit = false;
     private MemoPresenter mPresenter;
 
-    public MemoAdapter(Context mContext, List<MemoEntity> list) {
-        this.mContext = mContext;
-        this.mList = list;
-    }
-
     public MemoAdapter(Context mContext, List<MemoEntity> list, boolean isEdit, MemoPresenter presenter) {
         this.mContext = mContext;
         this.mList = list;
@@ -55,6 +52,18 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ItemViewHolder
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         final MemoEntity entity = mList.get(position);
         holder.tvContent.setText(entity.getMemo());
+        boolean hasLine = entity.getLine();
+        if (hasLine) {
+            holder.tvContent.setTextColor(Color.parseColor("#999999"));
+            holder.tvContent.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+        } else {
+            holder.tvContent.setTextColor(Color.parseColor("#333333"));
+            holder.tvContent.getPaint().setFlags(Paint.ANTI_ALIAS_FLAG);
+        }
+        holder.tvContent.setOnClickListener(v -> {
+            mPresenter.setLine(!hasLine, entity);
+            notifyDataSetChanged();
+        });
         if (isEdit) {
             holder.ivDelete.setVisibility(View.VISIBLE);
         } else {

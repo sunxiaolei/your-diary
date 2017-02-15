@@ -28,6 +28,7 @@ public class MemoEntityDao extends AbstractDao<MemoEntity, Long> {
         public final static Property Memo = new Property(1, String.class, "memo", false, "MEMO");
         public final static Property MemoId = new Property(2, Long.class, "memoId", false, "MEMO_ID");
         public final static Property Date = new Property(3, java.util.Date.class, "date", false, "DATE");
+        public final static Property Line = new Property(4, boolean.class, "line", false, "LINE");
     }
 
 
@@ -46,7 +47,8 @@ public class MemoEntityDao extends AbstractDao<MemoEntity, Long> {
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"MEMO\" TEXT," + // 1: memo
                 "\"MEMO_ID\" INTEGER," + // 2: memoId
-                "\"DATE\" INTEGER);"); // 3: date
+                "\"DATE\" INTEGER," + // 3: date
+                "\"LINE\" INTEGER NOT NULL );"); // 4: line
     }
 
     /** Drops the underlying database table. */
@@ -78,6 +80,7 @@ public class MemoEntityDao extends AbstractDao<MemoEntity, Long> {
         if (date != null) {
             stmt.bindLong(4, date.getTime());
         }
+        stmt.bindLong(5, entity.getLine() ? 1L: 0L);
     }
 
     @Override
@@ -103,6 +106,7 @@ public class MemoEntityDao extends AbstractDao<MemoEntity, Long> {
         if (date != null) {
             stmt.bindLong(4, date.getTime());
         }
+        stmt.bindLong(5, entity.getLine() ? 1L: 0L);
     }
 
     @Override
@@ -116,7 +120,8 @@ public class MemoEntityDao extends AbstractDao<MemoEntity, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // memo
             cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // memoId
-            cursor.isNull(offset + 3) ? null : new java.util.Date(cursor.getLong(offset + 3)) // date
+            cursor.isNull(offset + 3) ? null : new java.util.Date(cursor.getLong(offset + 3)), // date
+            cursor.getShort(offset + 4) != 0 // line
         );
         return entity;
     }
@@ -127,6 +132,7 @@ public class MemoEntityDao extends AbstractDao<MemoEntity, Long> {
         entity.setMemo(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setMemoId(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
         entity.setDate(cursor.isNull(offset + 3) ? null : new java.util.Date(cursor.getLong(offset + 3)));
+        entity.setLine(cursor.getShort(offset + 4) != 0);
      }
     
     @Override
