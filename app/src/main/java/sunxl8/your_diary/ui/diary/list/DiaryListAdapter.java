@@ -42,12 +42,19 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
     @Override
     public void onBindViewHolder(DiaryListViewHolder holder, int position) {
         final DiaryEntity entity = mList.get(position);
+        String date = TimeUtils.date2String(entity.getDate(), new SimpleDateFormat("dd"));
+        String week = TimeUtils.getWeek(entity.getDate());
+        String time = TimeUtils.date2String(entity.getDate(), new SimpleDateFormat("HH:mm"));
         if (entity.getShowDate()) {
-            holder.tvDate.setText(TimeUtils.date2String(entity.getDate(), new SimpleDateFormat("dd")));
+            holder.tvDate.setText(date);
             holder.tvDate.setVisibility(View.VISIBLE);
         } else {
             holder.tvDate.setVisibility(View.GONE);
         }
+        holder.tvItemDate.setText(date);
+        holder.tvItemWeek.setText(week);
+        holder.tvItemTime.setText(time);
+        holder.tvItemTitle.setText(entity.getTitle());
     }
 
     @Override
@@ -59,6 +66,16 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
 
         @BindView(R.id.tv_diray_list_date)
         TextView tvDate;
+        @BindView(R.id.tv_item_diary_list_date)
+        TextView tvItemDate;
+        @BindView(R.id.tv_item_diary_list_week)
+        TextView tvItemWeek;
+        @BindView(R.id.tv_item_diary_list_time)
+        TextView tvItemTime;
+        @BindView(R.id.tv_item_diary_list_title)
+        TextView tvItemTitle;
+        @BindView(R.id.tv_item_diary_list_content)
+        TextView tvItemContent;
 
         public DiaryListViewHolder(View itemView) {
             super(itemView);
