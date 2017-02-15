@@ -55,6 +55,7 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
         holder.tvItemWeek.setText(week);
         holder.tvItemTime.setText(time);
         holder.tvItemTitle.setText(entity.getTitle());
+        holder.tvItemSubhead.setText(entity.getSubHead());
     }
 
     @Override
@@ -74,8 +75,8 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
         TextView tvItemTime;
         @BindView(R.id.tv_item_diary_list_title)
         TextView tvItemTitle;
-        @BindView(R.id.tv_item_diary_list_content)
-        TextView tvItemContent;
+        @BindView(R.id.tv_item_diary_list_sunhead)
+        TextView tvItemSubhead;
 
         public DiaryListViewHolder(View itemView) {
             super(itemView);

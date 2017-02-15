@@ -26,12 +26,13 @@ public class DiaryEntityDao extends AbstractDao<DiaryEntity, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Title = new Property(1, String.class, "Title", false, "TITLE");
-        public final static Property Content = new Property(2, String.class, "content", false, "CONTENT");
-        public final static Property Weather = new Property(3, int.class, "weather", false, "WEATHER");
-        public final static Property Mood = new Property(4, int.class, "mood", false, "MOOD");
-        public final static Property Date = new Property(5, java.util.Date.class, "date", false, "DATE");
-        public final static Property DiaryId = new Property(6, Long.class, "diaryId", false, "DIARY_ID");
-        public final static Property ShowDate = new Property(7, boolean.class, "showDate", false, "SHOW_DATE");
+        public final static Property SubHead = new Property(2, String.class, "subHead", false, "SUB_HEAD");
+        public final static Property Content = new Property(3, String.class, "content", false, "CONTENT");
+        public final static Property Weather = new Property(4, int.class, "weather", false, "WEATHER");
+        public final static Property Mood = new Property(5, int.class, "mood", false, "MOOD");
+        public final static Property Date = new Property(6, java.util.Date.class, "date", false, "DATE");
+        public final static Property DiaryId = new Property(7, Long.class, "diaryId", false, "DIARY_ID");
+        public final static Property ShowDate = new Property(8, boolean.class, "showDate", false, "SHOW_DATE");
     }
 
 
@@ -49,12 +50,13 @@ public class DiaryEntityDao extends AbstractDao<DiaryEntity, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"DIARY_ENTITY\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"TITLE\" TEXT," + // 1: Title
-                "\"CONTENT\" TEXT," + // 2: content
-                "\"WEATHER\" INTEGER NOT NULL ," + // 3: weather
-                "\"MOOD\" INTEGER NOT NULL ," + // 4: mood
-                "\"DATE\" INTEGER," + // 5: date
-                "\"DIARY_ID\" INTEGER," + // 6: diaryId
-                "\"SHOW_DATE\" INTEGER NOT NULL );"); // 7: showDate
+                "\"SUB_HEAD\" TEXT," + // 2: subHead
+                "\"CONTENT\" TEXT," + // 3: content
+                "\"WEATHER\" INTEGER NOT NULL ," + // 4: weather
+                "\"MOOD\" INTEGER NOT NULL ," + // 5: mood
+                "\"DATE\" INTEGER," + // 6: date
+                "\"DIARY_ID\" INTEGER," + // 7: diaryId
+                "\"SHOW_DATE\" INTEGER NOT NULL );"); // 8: showDate
     }
 
     /** Drops the underlying database table. */
@@ -77,23 +79,28 @@ public class DiaryEntityDao extends AbstractDao<DiaryEntity, Long> {
             stmt.bindString(2, Title);
         }
  
+        String subHead = entity.getSubHead();
+        if (subHead != null) {
+            stmt.bindString(3, subHead);
+        }
+ 
         String content = entity.getContent();
         if (content != null) {
-            stmt.bindString(3, content);
+            stmt.bindString(4, content);
         }
-        stmt.bindLong(4, entity.getWeather());
-        stmt.bindLong(5, entity.getMood());
+        stmt.bindLong(5, entity.getWeather());
+        stmt.bindLong(6, entity.getMood());
  
         java.util.Date date = entity.getDate();
         if (date != null) {
-            stmt.bindLong(6, date.getTime());
+            stmt.bindLong(7, date.getTime());
         }
  
         Long diaryId = entity.getDiaryId();
         if (diaryId != null) {
-            stmt.bindLong(7, diaryId);
+            stmt.bindLong(8, diaryId);
         }
-        stmt.bindLong(8, entity.getShowDate() ? 1L: 0L);
+        stmt.bindLong(9, entity.getShowDate() ? 1L: 0L);
     }
 
     @Override
@@ -110,23 +117,28 @@ public class DiaryEntityDao extends AbstractDao<DiaryEntity, Long> {
             stmt.bindString(2, Title);
         }
  
+        String subHead = entity.getSubHead();
+        if (subHead != null) {
+            stmt.bindString(3, subHead);
+        }
+ 
         String content = entity.getContent();
         if (content != null) {
-            stmt.bindString(3, content);
+            stmt.bindString(4, content);
         }
-        stmt.bindLong(4, entity.getWeather());
-        stmt.bindLong(5, entity.getMood());
+        stmt.bindLong(5, entity.getWeather());
+        stmt.bindLong(6, entity.getMood());
  
         java.util.Date date = entity.getDate();
         if (date != null) {
-            stmt.bindLong(6, date.getTime());
+            stmt.bindLong(7, date.getTime());
         }
  
         Long diaryId = entity.getDiaryId();
         if (diaryId != null) {
-            stmt.bindLong(7, diaryId);
+            stmt.bindLong(8, diaryId);
         }
-        stmt.bindLong(8, entity.getShowDate() ? 1L: 0L);
+        stmt.bindLong(9, entity.getShowDate() ? 1L: 0L);
     }
 
     @Override
@@ -139,12 +151,13 @@ public class DiaryEntityDao extends AbstractDao<DiaryEntity, Long> {
         DiaryEntity entity = new DiaryEntity( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // Title
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // content
-            cursor.getInt(offset + 3), // weather
-            cursor.getInt(offset + 4), // mood
-            cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)), // date
-            cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6), // diaryId
-            cursor.getShort(offset + 7) != 0 // showDate
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // subHead
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // content
+            cursor.getInt(offset + 4), // weather
+            cursor.getInt(offset + 5), // mood
+            cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)), // date
+            cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7), // diaryId
+            cursor.getShort(offset + 8) != 0 // showDate
         );
         return entity;
     }
@@ -153,12 +166,13 @@ public class DiaryEntityDao extends AbstractDao<DiaryEntity, Long> {
     public void readEntity(Cursor cursor, DiaryEntity entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTitle(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setContent(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setWeather(cursor.getInt(offset + 3));
-        entity.setMood(cursor.getInt(offset + 4));
-        entity.setDate(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
-        entity.setDiaryId(cursor.isNull(offset + 6) ? null : cursor.getLong(offset + 6));
-        entity.setShowDate(cursor.getShort(offset + 7) != 0);
+        entity.setSubHead(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setContent(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setWeather(cursor.getInt(offset + 4));
+        entity.setMood(cursor.getInt(offset + 5));
+        entity.setDate(cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)));
+        entity.setDiaryId(cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7));
+        entity.setShowDate(cursor.getShort(offset + 8) != 0);
      }
     
     @Override

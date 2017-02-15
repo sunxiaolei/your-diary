@@ -64,6 +64,8 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
 
     @BindView(R.id.et_diary_edit_title)
     EditText etTitle;
+    @BindView(R.id.et_diary_edit_subhead)
+    EditText etSubhead;
     @BindView(R.id.tv_diary_edit_date)
     TextView tvDate;
     @BindView(R.id.tv_diary_edit_location)
@@ -233,6 +235,7 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
         }
         DiaryEntity entity = new DiaryEntity();
         entity.setTitle(etTitle.getText().toString());
+        entity.setSubHead(etSubhead.getText().toString());
         entity.setDate(new Date());
         entity.setContent(etContent.getRichText());
         entity.setDiaryId(diaryId);
