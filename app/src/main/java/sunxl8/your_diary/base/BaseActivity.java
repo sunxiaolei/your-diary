@@ -2,6 +2,7 @@ package sunxl8.your_diary.base;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -74,6 +75,17 @@ public abstract class BaseActivity<T extends IPresenter> extends RxAppCompatActi
         if (dialog == null) {
             dialog = new AlertDialog.Builder(this)
                     .setPositiveButton("确定", null)
+                    .create();
+        }
+        dialog.setMessage(msg);
+        dialog.show();
+    }
+
+    public void showDialog(String msg, DialogInterface.OnClickListener listener) {
+        if (dialog == null) {
+            dialog = new AlertDialog.Builder(this)
+                    .setPositiveButton("确定", listener)
+                    .setNegativeButton("取消", null)
                     .create();
         }
         dialog.setMessage(msg);

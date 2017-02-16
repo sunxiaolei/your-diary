@@ -1,5 +1,9 @@
 package sunxl8.your_diary.ui.diary.edit;
 
+import org.greenrobot.greendao.query.Query;
+
+import java.util.List;
+
 import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.base.BaseApplication;
 import sunxl8.your_diary.base.BasePresenter;
@@ -28,15 +32,13 @@ public class DiaryEditPresenter extends BasePresenter<DiaryEditContract.View> im
         entityItemDao = daoSession.getItemEntityDao();
     }
 
-    private void editItemEntityCount(Long diaryId, boolean plus) {
+    private void editItemEntityCount(Long diaryId) {
+        Query query = mEntityDao.queryBuilder()
+                .where(DiaryEntityDao.Properties.DiaryId.eq(diaryId))
+                .orderDesc(DiaryEntityDao.Properties.Date)
+                .build();
         ItemEntity entity = entityItemDao.load(diaryId);
-        int count = entity.getItemCount();
-        if (plus) {
-            count++;
-        } else {
-            count--;
-        }
-        entity.setItemCount(count);
+        entity.setItemCount(query.list().size());
         entityItemDao.update(entity);
         RxBus.getInstance()
                 .post(new MainRefreshEvent());
@@ -45,7 +47,7 @@ public class DiaryEditPresenter extends BasePresenter<DiaryEditContract.View> im
     @Override
     public void save(Long diaryId, DiaryEntity entity) {
         mEntityDao.save(entity);
-        editItemEntityCount(diaryId, true);
+        editItemEntityCount(diaryId);
         mView.saveDone();
     }
 }

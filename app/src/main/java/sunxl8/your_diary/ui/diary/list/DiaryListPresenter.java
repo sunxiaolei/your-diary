@@ -11,8 +11,11 @@ import sunxl8.your_diary.base.BaseApplication;
 import sunxl8.your_diary.base.BasePresenter;
 import sunxl8.your_diary.db.dao.DaoSession;
 import sunxl8.your_diary.db.dao.DiaryEntityDao;
-import sunxl8.your_diary.db.dao.MemoEntityDao;
+import sunxl8.your_diary.db.dao.ItemEntityDao;
 import sunxl8.your_diary.db.entity.DiaryEntity;
+import sunxl8.your_diary.db.entity.ItemEntity;
+import sunxl8.your_diary.event.MainRefreshEvent;
+import sunxl8.your_diary.util.RxBus;
 import sunxl8.your_diary.util.TimeUtils;
 
 /**
@@ -22,11 +25,13 @@ import sunxl8.your_diary.util.TimeUtils;
 public class DiaryListPresenter extends BasePresenter<DiaryListContract.View> implements DiaryListContract.Presenter {
 
     private DiaryEntityDao mEntityDao;
+    private ItemEntityDao mItemEntityDao;
 
     protected DiaryListPresenter(BaseActivity activity) {
         super(activity);
         DaoSession daoSession = ((BaseApplication) activity.getApplication()).getDaoSession();
         mEntityDao = daoSession.getDiaryEntityDao();
+        mItemEntityDao = daoSession.getItemEntityDao();
     }
 
     @Override
@@ -37,6 +42,13 @@ public class DiaryListPresenter extends BasePresenter<DiaryListContract.View> im
                 .build();
         List<DiaryEntity> list = getList(query.list());
         mView.showDiaryList(list);
+    }
+
+    @Override
+    public void deleteDary(Long id, Long diaryId) {
+        mEntityDao.deleteByKey(id);
+        editItemEntityCount(diaryId);
+        getDiaryList(diaryId);
     }
 
     private List<DiaryEntity> getList(List<DiaryEntity> list) {
@@ -55,5 +67,17 @@ public class DiaryListPresenter extends BasePresenter<DiaryListContract.View> im
             listNew.add(entity);
         }
         return listNew;
+    }
+
+    private void editItemEntityCount(Long diaryId) {
+        Query query = mEntityDao.queryBuilder()
+                .where(DiaryEntityDao.Properties.DiaryId.eq(diaryId))
+                .orderDesc(DiaryEntityDao.Properties.Date)
+                .build();
+        ItemEntity entity = mItemEntityDao.load(diaryId);
+        entity.setItemCount(query.list().size());
+        mItemEntityDao.update(entity);
+        RxBus.getInstance()
+                .post(new MainRefreshEvent());
     }
 }

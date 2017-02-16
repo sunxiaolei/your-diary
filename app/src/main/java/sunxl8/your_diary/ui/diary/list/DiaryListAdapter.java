@@ -1,6 +1,7 @@
 package sunxl8.your_diary.ui.diary.list;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -30,10 +31,12 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
 
     private Context mContext;
     private List<DiaryEntity> mList;
+    private DiaryListPresenter mPresenter;
 
-    public DiaryListAdapter(Context context, List<DiaryEntity> list) {
+    public DiaryListAdapter(Context context, List<DiaryEntity> list, DiaryListPresenter presenter) {
         mContext = context;
         mList = list;
+        mPresenter = presenter;
     }
 
     @Override
@@ -81,6 +84,14 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
         bundle.putInt("mood", entity.getMood());
         bundle.putInt("weather", entity.getWeather());
         MyDiaryDialog dialog = MyDiaryDialog.newInstance(bundle);
+        dialog.setDeleteListener(v -> {
+            ((BaseActivity) mContext).showDialog("删除本篇日记？", (dialog1, which) -> {
+                if (which == DialogInterface.BUTTON_POSITIVE) {
+                    mPresenter.deleteDary(entity.getId(), entity.getDiaryId());
+                    dialog.getDialog().dismiss();
+                }
+            });
+        });
         dialog.show(((BaseActivity) mContext).getSupportFragmentManager(), "");
     }
 
