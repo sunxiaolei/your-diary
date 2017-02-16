@@ -67,4 +67,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     //添加图片
     compile 'com.jph.takephoto:takephoto_library:4.0.3'
+    //timepicker
+    compile 'com.wdullaer:materialdatetimepicker:3.1.1'
 }
