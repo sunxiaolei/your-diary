@@ -17,6 +17,9 @@ public interface DiaryListContract {
     }
 
     interface Presenter extends IPresenter<View> {
+
         void getDiaryList(Long diaryId);
+
+        void deleteDary(Long id, Long diaryId);
     }
 }

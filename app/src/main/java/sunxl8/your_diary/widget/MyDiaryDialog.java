@@ -1,6 +1,7 @@
 package sunxl8.your_diary.widget;
 
 import android.os.Bundle;
+import android.service.notification.NotificationListenerService;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.style.IconMarginSpan;
@@ -50,6 +51,8 @@ public class MyDiaryDialog extends DialogFragment {
     ImageView ivWeather;
     @BindView(R.id.iv_diary_dialog_mood)
     ImageView ivMood;
+    @BindView(R.id.iv_diary_dialog_recycle)
+    ImageView ivDelete;
 
     private String mMonth;
     private String mDate;
@@ -60,6 +63,8 @@ public class MyDiaryDialog extends DialogFragment {
     private String mContent;
     private int mMood;
     private int mWeather;
+
+    private View.OnClickListener mListener;
 
     public static MyDiaryDialog newInstance(Bundle bundle) {
         MyDiaryDialog dialog = new MyDiaryDialog();
@@ -101,6 +106,11 @@ public class MyDiaryDialog extends DialogFragment {
                 .subscribe(aVoid -> {
                     this.dismiss();
                 });
+        ivDelete.setOnClickListener(mListener);
+    }
+
+    public void setDeleteListener(View.OnClickListener listener){
+        mListener = listener;
     }
 
 }
