@@ -3,6 +3,8 @@ package sunxl8.your_diary.ui.diary.list;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.trello.rxlifecycle.android.ActivityEvent;
 import com.trello.rxlifecycle.android.FragmentEvent;
@@ -30,6 +32,14 @@ public class DiaryListFragment extends BaseFragment<DiaryListPresenter> implemen
 
     @BindView(R.id.rv_diary_list)
     RecyclerView rvList;
+    @BindView(R.id.iv_diary_list_menu)
+    RelativeLayout layoutMenu;
+    @BindView(R.id.iv_diary_list_pen)
+    RelativeLayout layoutPen;
+    @BindView(R.id.iv_diary_list_camera)
+    RelativeLayout layoutCamera;
+    @BindView(R.id.tv_diary_list_count)
+    TextView tvCount;
 
     private DiaryListAdapter mAdapter;
 
@@ -71,7 +81,8 @@ public class DiaryListFragment extends BaseFragment<DiaryListPresenter> implemen
 
     @Override
     public void showDiaryList(List<DiaryEntity> list) {
-        if (list != null && list.size() > 0) {
+        if (list != null) {
+            tvCount.setText(list.size() + "  entry");
             mAdapter = new DiaryListAdapter(getActivity(), list, mPresenter);
             rvList.setAdapter(mAdapter);
         }

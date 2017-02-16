@@ -46,7 +46,7 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
         entityContact.setDate(new Date());
         entityContact.setItemTitle(name);
         entityContact.setItemType(type);
-        entityDao.insert(entityContact);
+        entityDao.save(entityContact);
         getItemList(BaseApplication.account);
     }
 }
