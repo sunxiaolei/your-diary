@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.support.v4.view.RxViewPager;
@@ -51,8 +52,16 @@ public class MyDiaryDialog extends DialogFragment {
     ImageView ivWeather;
     @BindView(R.id.iv_diary_dialog_mood)
     ImageView ivMood;
+    @BindView(R.id.iv_diary_dialog_more)
+    RelativeLayout ivMore;
+    @BindView(R.id.iv_diary_dialog_location)
+    RelativeLayout ivLocation;
+    @BindView(R.id.iv_diary_dialog_camera)
+    RelativeLayout ivCamera;
+    @BindView(R.id.iv_diary_dialog_music)
+    RelativeLayout ivMusic;
     @BindView(R.id.iv_diary_dialog_recycle)
-    ImageView ivDelete;
+    RelativeLayout ivDelete;
 
     private String mMonth;
     private String mDate;
@@ -109,7 +118,7 @@ public class MyDiaryDialog extends DialogFragment {
         ivDelete.setOnClickListener(mListener);
     }
 
-    public void setDeleteListener(View.OnClickListener listener){
+    public void setDeleteListener(View.OnClickListener listener) {
         mListener = listener;
     }
 
