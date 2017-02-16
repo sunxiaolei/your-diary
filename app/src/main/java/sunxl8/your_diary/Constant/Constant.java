@@ -32,6 +32,7 @@ public class Constant {
     private static final int STATUS_WEATHER_SNOW = 6;
     private static final int STATUS_WEATHER_HAZE = 7;
     private static final int STATUS_WEATHER_FOGGY = 8;
-    public static final int[] IC_WEATHER = {R.drawable.ic_weather, R.drawable.ic_weather, R.drawable.ic_weather, R.drawable.ic_weather,
-            R.drawable.ic_weather, R.drawable.ic_weather, R.drawable.ic_weather, R.drawable.ic_weather, R.drawable.ic_weather};
+    public static final int[] IC_WEATHER = {R.drawable.ic_weather_sunny, R.drawable.ic_weather_overcast, R.drawable.ic_weather_cloudy,
+            R.drawable.ic_weather_rainy, R.drawable.ic_weather_windy, R.drawable.ic_weather_thunder, R.drawable.ic_weather_snow,
+            R.drawable.ic_weather_haze, R.drawable.ic_weather_foggy};
 }
