@@ -6,12 +6,14 @@ import android.content.Intent;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
+import sunxl8.your_diary.constant.Constant;
 import sunxl8.your_diary.db.GreenDaoOpenHelper;
 import sunxl8.your_diary.db.dao.DaoMaster;
 import sunxl8.your_diary.db.dao.DaoSession;
 import sunxl8.your_diary.ui.main.MainActivity;
 import sunxl8.your_diary.ui.pinlock.PinlockActivity;
 import sunxl8.your_diary.util.MyActivityLifecycleCallbacks;
+import sunxl8.your_diary.util.SPUtils;
 
 /**
  * Created by sunxl8 on 2016/12/21.
@@ -38,12 +40,16 @@ public class BaseApplication extends Application {
     }
 
     private void initActivityLifecycle() {
+        SPUtils spPin = new SPUtils(this, Constant.SP_PIN);
         MyActivityLifecycleCallbacks callbacks = new MyActivityLifecycleCallbacks();
         this.registerActivityLifecycleCallbacks(callbacks);
         callbacks.setCallback(new MyActivityLifecycleCallbacks.Callback() {
             @Override
             public void backToForeground() {
-                PinlockActivity.startPinlockActivity(getApplicationContext(), PinlockActivity.ACTION_VERIFY);
+                boolean isPinOpen = spPin.getBoolean(Constant.SP_PIN_STATUS, false);
+                if (isPinOpen) {
+                    PinlockActivity.startPinlockActivity(getApplicationContext(), PinlockActivity.ACTION_VERIFY);
+                }
             }
 
             @Override

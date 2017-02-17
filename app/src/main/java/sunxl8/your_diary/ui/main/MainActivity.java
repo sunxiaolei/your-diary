@@ -1,5 +1,6 @@
 package sunxl8.your_diary.ui.main;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -25,6 +26,7 @@ import sunxl8.your_diary.base.BaseApplication;
 import sunxl8.your_diary.constant.Constant;
 import sunxl8.your_diary.db.entity.ItemEntity;
 import sunxl8.your_diary.event.MainRefreshEvent;
+import sunxl8.your_diary.ui.setting.SettingActivity;
 import sunxl8.your_diary.util.RxBus;
 import sunxl8.your_diary.util.SPUtils;
 import sunxl8.your_diary.widget.MyAlertDialog;
@@ -70,7 +72,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         RxView.clicks(ivSet)
                 .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(aVoid -> {
-                    showToast("set");
+                    startActivity(new Intent(this, SettingActivity.class));
                 });
         rvItem.setLayoutManager(new LinearLayoutManager(this));
         RxBus.getInstance().onEvent(MainRefreshEvent.class)

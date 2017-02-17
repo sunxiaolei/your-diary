@@ -15,6 +15,7 @@ public class Constant {
 
     public static final String SP_PIN = "SP_PIN";
     public static final String SP_PIN_PASSWORD = "SP_PIN_PASSWORD";
+    public static final String SP_PIN_STATUS = "SP_PIN_STATUS";
 
     public static final int ITEM_TYPE_CONTACT = 0;
     public static final int ITEM_TYPE_DIARY = 1;
