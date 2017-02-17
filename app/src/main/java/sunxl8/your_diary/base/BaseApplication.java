@@ -10,6 +10,7 @@ import sunxl8.your_diary.db.GreenDaoOpenHelper;
 import sunxl8.your_diary.db.dao.DaoMaster;
 import sunxl8.your_diary.db.dao.DaoSession;
 import sunxl8.your_diary.ui.main.MainActivity;
+import sunxl8.your_diary.ui.pinlock.PinlockActivity;
 import sunxl8.your_diary.util.MyActivityLifecycleCallbacks;
 
 /**
@@ -42,9 +43,7 @@ public class BaseApplication extends Application {
         callbacks.setCallback(new MyActivityLifecycleCallbacks.Callback() {
             @Override
             public void backToForeground() {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                PinlockActivity.startPinlockActivity(getApplicationContext(), PinlockActivity.ACTION_VERIFY);
             }
 
             @Override
