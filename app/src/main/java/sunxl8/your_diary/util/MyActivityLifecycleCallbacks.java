@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import sunxl8.your_diary.base.BaseApplication;
+import sunxl8.your_diary.ui.splash.SplashActivity;
+
 /**
  * Created by sunxl8 on 2017/2/16.
  */
@@ -11,6 +14,8 @@ import android.os.Bundle;
 public class MyActivityLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
 
     private Callback mCallback;
+
+    private boolean isBackground = false;
 
     private int count = 0;
 
@@ -24,12 +29,14 @@ public class MyActivityLifecycleCallbacks implements Application.ActivityLifecyc
 
     @Override
     public void onActivityStarted(Activity activity) {
-        if (count == 0) {
+        if (count == 0 && isBackground) {
             if (mCallback != null) {
                 mCallback.backToForeground();
             }
         }
-        count++;
+        if (!(activity instanceof SplashActivity)) {
+            count++;
+        }
     }
 
     @Override
@@ -43,11 +50,14 @@ public class MyActivityLifecycleCallbacks implements Application.ActivityLifecyc
     @Override
     public void onActivityStopped(Activity activity) {
         if (count == 1) {
+            isBackground = true;
             if (mCallback != null) {
                 mCallback.foreToBackground();
             }
         }
-        count--;
+        if (!(activity instanceof SplashActivity)) {
+            count--;
+        }
     }
 
     @Override

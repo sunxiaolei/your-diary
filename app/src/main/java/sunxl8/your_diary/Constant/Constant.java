@@ -13,6 +13,9 @@ public class Constant {
     public static final String SP_ACCOUNT_PASSWORD = "SP_ACCOUNT_PASSWORD";
     public static final String SP_ACCOUNT_NAME = "SP_ACCOUNT_NAME";
 
+    public static final String SP_PIN = "SP_PIN";
+    public static final String SP_PIN_PASSWORD = "SP_PIN_PASSWORD";
+
     public static final int ITEM_TYPE_CONTACT = 0;
     public static final int ITEM_TYPE_DIARY = 1;
     public static final int ITEM_TYPE_MEMO = 2;

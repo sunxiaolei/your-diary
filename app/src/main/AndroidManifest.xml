@@ -23,6 +23,7 @@
         <activity
             android:name=".ui.memo.MemoActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity android:name=".ui.pinlock.PinlockActivity" />
 
     </application>
 
