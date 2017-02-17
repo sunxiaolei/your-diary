@@ -1,15 +1,16 @@
 package sunxl8.your_diary.base;
 
 import android.app.Application;
+import android.content.Intent;
 
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
-import org.greenrobot.greendao.database.Database;
-
 import sunxl8.your_diary.db.GreenDaoOpenHelper;
 import sunxl8.your_diary.db.dao.DaoMaster;
 import sunxl8.your_diary.db.dao.DaoSession;
+import sunxl8.your_diary.ui.main.MainActivity;
+import sunxl8.your_diary.util.MyActivityLifecycleCallbacks;
 
 /**
  * Created by sunxl8 on 2016/12/21.
@@ -31,7 +32,26 @@ public class BaseApplication extends Application {
                 .hideThreadInfo()
                 .logLevel(LogLevel.FULL)
                 .methodOffset(2);
+        initActivityLifecycle();
         initDataBase();
+    }
+
+    private void initActivityLifecycle() {
+        MyActivityLifecycleCallbacks callbacks = new MyActivityLifecycleCallbacks();
+        this.registerActivityLifecycleCallbacks(callbacks);
+        callbacks.setCallback(new MyActivityLifecycleCallbacks.Callback() {
+            @Override
+            public void backToForeground() {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+
+            @Override
+            public void foreToBackground() {
+
+            }
+        });
     }
 
     private void initDataBase() {
