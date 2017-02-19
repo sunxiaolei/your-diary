@@ -1,9 +1,16 @@
 package sunxl8.your_diary.ui.diary.calendar;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+
+import com.jakewharton.rxbinding.view.RxView;
+import com.trello.rxlifecycle.android.FragmentEvent;
 
 import butterknife.BindView;
+import rx.functions.Action1;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.base.BaseFragment;
@@ -18,6 +25,12 @@ public class DiaryCalendarFragment extends BaseFragment<DiaryCalendarPresenter> 
 
     @BindView(R.id.layout_diary_calendar)
     FrameLayout mLayout;
+    @BindView(R.id.iv_diary_calendar_arrow)
+    ImageView ivArrow;
+    @BindView(R.id.rv_diary_calendar)
+    RecyclerView rvList;
+
+    private boolean showList = false;
 
     public static DiaryCalendarFragment newInstance() {
         DiaryCalendarFragment fragment = new DiaryCalendarFragment();
@@ -40,6 +53,21 @@ public class DiaryCalendarFragment extends BaseFragment<DiaryCalendarPresenter> 
     protected void initView() {
         DiaryCalendarView calendarView = new DiaryCalendarView(getActivity());
         mLayout.addView(calendarView);
+
+        RxView.clicks(ivArrow)
+                .compose(this.bindUntilEvent(FragmentEvent.DESTROY))
+                .subscribe(aVoid -> {
+                    if (showList) {
+                        mLayout.setVisibility(View.VISIBLE);
+                        rvList.setVisibility(View.GONE);
+                    } else {
+                        mLayout.setVisibility(View.GONE);
+                        rvList.setVisibility(View.VISIBLE);
+                    }
+                    showList = !showList;
+                });
+
+
     }
 
     @Override

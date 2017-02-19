@@ -78,4 +78,27 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/layout_diary_calendar_arrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_diary_calendar"
+        android:minHeight="60dp">
+
+        <ImageView
+            android:id="@+id/iv_diary_calendar_arrow"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_arrow_down" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_diary_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/layout_diary_calendar_bottom"
+        android:layout_below="@id/layout_diary_calendar_arrow"
+        android:visibility="gone" />
+
 </RelativeLayout>
