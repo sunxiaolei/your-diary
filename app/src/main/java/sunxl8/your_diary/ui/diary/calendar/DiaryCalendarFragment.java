@@ -74,9 +74,11 @@ public class DiaryCalendarFragment extends BaseFragment<DiaryCalendarPresenter> 
                 .compose(this.bindUntilEvent(FragmentEvent.DESTROY))
                 .subscribe(aVoid -> {
                     if (showList) {
+                        ivArrow.setImageResource(R.drawable.ic_arrow_down);
                         mLayout.setVisibility(View.VISIBLE);
                         rvList.setVisibility(View.GONE);
                     } else {
+                        ivArrow.setImageResource(R.drawable.ic_arrow_up);
                         mLayout.setVisibility(View.GONE);
                         rvList.setVisibility(View.VISIBLE);
                     }
