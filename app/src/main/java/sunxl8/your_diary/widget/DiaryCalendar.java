@@ -32,9 +32,10 @@ public class DiaryCalendar {
 
     private int defaultColor;
 
+    private DateChangeListener mListener;
 
-    public DiaryCalendar(Context context, int width, int height) {
-
+    public DiaryCalendar(Context context, int width, int height,DateChangeListener listener) {
+        this.mListener = listener;
         calendar = Calendar.getInstance();
         mContext = context;
         textRect = new Rect(0, 0, width, height);
@@ -102,6 +103,8 @@ public class DiaryCalendar {
         canvas.drawText("星期" + week[(calendar.get(Calendar.DAY_OF_WEEK) - 1)],
                 textBaseX, dayBaseLine, dayPaint);
 
+        mListener.dateChange(calendar);
+
     }
 
     private float getTextHeight(Paint paint) {
@@ -109,6 +112,10 @@ public class DiaryCalendar {
         float top = fontMetrics.top;
         float bottom = fontMetrics.bottom;
         return bottom - top;
+    }
+
+    public interface DateChangeListener {
+        void dateChange(Calendar calendar);
     }
 
 }

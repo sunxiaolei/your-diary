@@ -69,18 +69,18 @@ public class DiaryCalendarView extends View {
 
     private DiaryCalendar mCalendar;
 
-    public DiaryCalendarView(Context context) {
+    public DiaryCalendarView(Context context, DiaryCalendar.DateChangeListener listener) {
         super(context);
-        init(context);
+        init(context, listener);
     }
 
-    private void init(Context context) {
+    private void init(Context context, DiaryCalendar.DateChangeListener listener) {
         //View
         setScreen(context);
         createBitmaps();
 
         //Set calendar , this object should be created after w,h was set.
-        mCalendar = new DiaryCalendar(context, mWidth, mHeight);
+        mCalendar = new DiaryCalendar(context, mWidth, mHeight, listener);
 
         //Page effect
         mPath0 = new Path();
@@ -108,7 +108,7 @@ public class DiaryCalendarView extends View {
 
     private void setScreen(Context context) {
         mWidth = SizeUtils.getScreenWidth(context);
-        mHeight = SizeUtils.dp2px(context,400);
+        mHeight = SizeUtils.dp2px(context, 400);
         mMaxLength = (float) Math.hypot(mWidth, mHeight);
     }
 
