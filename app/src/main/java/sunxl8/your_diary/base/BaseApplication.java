@@ -1,16 +1,18 @@
 package sunxl8.your_diary.base;
 
 import android.app.Application;
-import android.content.Intent;
+import android.content.Context;
+import android.os.Environment;
 
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
+
+import java.io.File;
 
 import sunxl8.your_diary.constant.Constant;
 import sunxl8.your_diary.db.GreenDaoOpenHelper;
 import sunxl8.your_diary.db.dao.DaoMaster;
 import sunxl8.your_diary.db.dao.DaoSession;
-import sunxl8.your_diary.ui.main.MainActivity;
 import sunxl8.your_diary.ui.pinlock.PinlockActivity;
 import sunxl8.your_diary.util.MyActivityLifecycleCallbacks;
 import sunxl8.your_diary.util.SPUtils;
@@ -21,6 +23,8 @@ import sunxl8.your_diary.util.SPUtils;
 
 public class BaseApplication extends Application {
 
+    private static Context mContext;
+
     public static String account;
 
     public static final boolean ENCRYPTED = true;
@@ -30,6 +34,7 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        mContext = this;
         Logger.init("your-diary")
                 .methodCount(3)
                 .hideThreadInfo()
@@ -37,6 +42,10 @@ public class BaseApplication extends Application {
                 .methodOffset(2);
         initActivityLifecycle();
         initDataBase();
+    }
+
+    public static Context getContext() {
+        return mContext;
     }
 
     private void initActivityLifecycle() {
@@ -64,7 +73,15 @@ public class BaseApplication extends Application {
 //        Database db = ENCRYPTED ? helper.getEncryptedWritableDb("yd-pwd") : helper.getWritableDb();
 //        Database db = helper.getWritableDb();
 //        daoSession = new DaoMaster(db).newSession();
-        GreenDaoOpenHelper helper = new GreenDaoOpenHelper(this, "yd-db", null);
+        File path = new File(Environment.getExternalStorageDirectory(), "/YourDiary/DB/" + "yd-db");
+        path.getParentFile().mkdirs();
+        GreenDaoOpenHelper helper = null;
+        if (path.getParentFile().exists()) {
+            helper = new GreenDaoOpenHelper(this, path.getAbsolutePath(), null);
+        } else {
+            helper = new GreenDaoOpenHelper(this, "yd-db", null);
+        }
+//        GreenDaoOpenHelper helper = new GreenDaoOpenHelper(this, "yd-db", null);
         DaoMaster daoMaster = new DaoMaster(helper.getWritableDatabase());
         daoSession = daoMaster.newSession();
     }
