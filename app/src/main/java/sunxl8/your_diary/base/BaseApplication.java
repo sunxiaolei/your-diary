@@ -7,9 +7,12 @@ import android.os.Environment;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
+import org.greenrobot.greendao.DbUtils;
+
 import java.io.File;
 
 import sunxl8.your_diary.constant.Constant;
+import sunxl8.your_diary.db.DbManager;
 import sunxl8.your_diary.db.GreenDaoOpenHelper;
 import sunxl8.your_diary.db.dao.DaoMaster;
 import sunxl8.your_diary.db.dao.DaoSession;
@@ -84,6 +87,7 @@ public class BaseApplication extends Application {
 //        GreenDaoOpenHelper helper = new GreenDaoOpenHelper(this, "yd-db", null);
         DaoMaster daoMaster = new DaoMaster(helper.getWritableDatabase());
         daoSession = daoMaster.newSession();
+        DbManager.init(this);
     }
 
     public DaoSession getDaoSession() {
