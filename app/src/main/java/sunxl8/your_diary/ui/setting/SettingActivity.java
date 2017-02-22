@@ -1,14 +1,19 @@
 package sunxl8.your_diary.ui.setting;
 
-import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import com.jakewharton.rxbinding.view.RxView;
+import com.trello.rxlifecycle.android.ActivityEvent;
+
 import butterknife.BindView;
+import rx.functions.Action1;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.base.IPresenter;
 import sunxl8.your_diary.constant.Constant;
+import sunxl8.your_diary.event.PinlockCancelEvent;
 import sunxl8.your_diary.ui.pinlock.PinlockActivity;
+import sunxl8.your_diary.util.RxBus;
 import sunxl8.your_diary.util.SPUtils;
 
 /**
@@ -46,6 +51,12 @@ public class SettingActivity extends BaseActivity {
             switchPin.setChecked(isChecked);
             spPin.putBoolean(Constant.SP_PIN_STATUS, isChecked);
         });
+
+        RxBus.getInstance().onEvent(PinlockCancelEvent.class)
+                .compose(this.bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(pinlockCancelEvent -> {
+                    switchPin.setChecked(false);
+                });
     }
 
     @Override
