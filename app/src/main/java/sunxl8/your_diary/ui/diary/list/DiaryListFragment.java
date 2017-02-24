@@ -1,19 +1,15 @@
 package sunxl8.your_diary.ui.diary.list;
 
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.trello.rxlifecycle.android.ActivityEvent;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.trello.rxlifecycle.android.FragmentEvent;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.crypto.Mac;
 
 import butterknife.BindView;
 import sunxl8.your_diary.R;
@@ -22,7 +18,6 @@ import sunxl8.your_diary.base.BaseFragment;
 import sunxl8.your_diary.db.entity.DiaryEntity;
 import sunxl8.your_diary.event.DiaryEditDoneEvent;
 import sunxl8.your_diary.util.RxBus;
-import sunxl8.your_diary.util.TimeUtils;
 
 /**
  * Created by sunxl8 on 2017/2/13.
@@ -31,7 +26,7 @@ import sunxl8.your_diary.util.TimeUtils;
 public class DiaryListFragment extends BaseFragment<DiaryListPresenter> implements DiaryListContract.View {
 
     @BindView(R.id.rv_diary_list)
-    RecyclerView rvList;
+    XRecyclerView rvList;
     @BindView(R.id.iv_diary_list_menu)
     RelativeLayout layoutMenu;
     @BindView(R.id.iv_diary_list_pen)
@@ -44,6 +39,8 @@ public class DiaryListFragment extends BaseFragment<DiaryListPresenter> implemen
     private DiaryListAdapter mAdapter;
 
     private Long diaryId;
+
+    private int page = 0;
 
     public static DiaryListFragment newInstance(Long id) {
         DiaryListFragment fragment = new DiaryListFragment();
@@ -71,6 +68,18 @@ public class DiaryListFragment extends BaseFragment<DiaryListPresenter> implemen
                 .subscribe(event -> {
                     initData();
                 });
+        rvList.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+            }
+
+            @Override
+            public void onLoadMore() {
+                page++;
+                mPresenter.getDiaryList(diaryId, page);
+            }
+        });
     }
 
     @Override
@@ -81,11 +90,18 @@ public class DiaryListFragment extends BaseFragment<DiaryListPresenter> implemen
 
     @Override
     public void showDiaryList(List<DiaryEntity> list) {
+        rvList.refreshComplete();
         if (list != null) {
             tvCount.setText(list.size() + "  entry");
             mAdapter = new DiaryListAdapter(getActivity(), list, mPresenter);
             rvList.setAdapter(mAdapter);
         }
+    }
+
+    @Override
+    public void showMoreDiaryList(List<DiaryEntity> list) {
+        rvList.loadMoreComplete();
+        mAdapter.addData(list);
     }
 
 }
