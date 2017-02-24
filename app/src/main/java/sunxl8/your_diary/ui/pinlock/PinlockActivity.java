@@ -3,6 +3,7 @@ package sunxl8.your_diary.ui.pinlock;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.view.KeyEvent;
 import android.widget.TextView;
 
 import com.andrognito.pinlockview.IndicatorDots;
@@ -13,6 +14,8 @@ import butterknife.BindView;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseActivity;
 import sunxl8.your_diary.base.IPresenter;
+import sunxl8.your_diary.event.PinlockCancelEvent;
+import sunxl8.your_diary.util.RxBus;
 
 /**
  * Created by sunxl8 on 2017/2/17.
@@ -98,5 +101,13 @@ public class PinlockActivity extends BaseActivity<PinlockPresenter> implements P
     public void verifyFail() {
         mPinLockView.resetPinLockView();
         showToast("密码错误");
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            RxBus.getInstance().post(new PinlockCancelEvent());
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
