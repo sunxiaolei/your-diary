@@ -39,6 +39,15 @@ public class DiaryListAdapter extends RecyclerView.Adapter<DiaryListAdapter.Diar
         mPresenter = presenter;
     }
 
+    public void addData(List<DiaryEntity> list) {
+        if (mList != null) {
+            mList.addAll(list);
+        } else {
+            mList = list;
+        }
+        notifyDataSetChanged();
+    }
+
     @Override
     public DiaryListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         DiaryListViewHolder holder =

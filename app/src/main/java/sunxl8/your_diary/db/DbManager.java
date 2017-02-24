@@ -56,9 +56,21 @@ public class DbManager {
      * @return
      */
     public static List<DiaryEntity> queryDiaryListByItemId(Long id) {
+        return queryDiaryListByItemIdPage(id, 0);
+    }
+
+    /**
+     * 获取符合id条件所有diary
+     *
+     * @param id
+     * @return
+     */
+    public static List<DiaryEntity> queryDiaryListByItemIdPage(Long id, int page) {
         Query query = mDiaryEntityDao.queryBuilder()
                 .where(DiaryEntityDao.Properties.DiaryId.eq(id))
                 .orderDesc(DiaryEntityDao.Properties.Date)
+                .offset(page * 10)
+                .limit(10)
                 .build();
         List<DiaryEntity> list = updateDiaryListByDate(query.list());
         return list;

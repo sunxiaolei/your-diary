@@ -24,6 +24,12 @@ public class DiaryListPresenter extends BasePresenter<DiaryListContract.View> im
     }
 
     @Override
+    public void getDiaryList(Long diaryId, int page) {
+        List<DiaryEntity> list = DbManager.queryDiaryListByItemIdPage(diaryId, page);
+        mView.showMoreDiaryList(list);
+    }
+
+    @Override
     public void deleteDary(Long id, Long diaryId) {
         DbManager.deleteDiaryById(id);
         editItemEntityCount(diaryId);
