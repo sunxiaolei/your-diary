@@ -40,8 +40,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import butterknife.BindView;
+import rx.functions.Action1;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseFragment;
 import sunxl8.your_diary.constant.Constant;
@@ -50,6 +52,7 @@ import sunxl8.your_diary.event.DiaryEditDoneEvent;
 import sunxl8.your_diary.ui.main.MainActivity;
 import sunxl8.your_diary.util.RxBus;
 import sunxl8.your_diary.util.TimeUtils;
+import sunxl8.your_diary.widget.MyEditDialog;
 import sunxl8.your_diary.widget.RichEditTextView;
 
 /**
@@ -80,8 +83,12 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
     RelativeLayout layoutClean;
     @BindView(R.id.layout_diary_edit_save)
     RelativeLayout layoutSave;
+    @BindView(R.id.tv_diary_edit_tag)
+    TextView tvTag;
 
     private Long diaryId;
+
+    private List<String> listTags;
 
     public static DiaryEditFragment newInstance(Long id) {
         DiaryEditFragment fragment = new DiaryEditFragment();
@@ -103,6 +110,7 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
 
     @Override
     protected void initView() {
+        listTags = new ArrayList<>();
         chooseCalendar = Calendar.getInstance();
         tvDate.setText(TimeUtils.date2String(chooseCalendar.getTime(), new SimpleDateFormat("yyyy-MM-dd HH:mm")));
         tvLocation.setText("");
@@ -139,6 +147,24 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
                 .subscribe(aVoid -> {
                     chooseDate();
                 });
+        RxView.clicks(tvTag)
+                .compose(this.bindUntilEvent(FragmentEvent.DESTROY))
+                .subscribe(aVoid -> {
+                    showAddDialog();
+                });
+    }
+
+    private MyEditDialog dialogEdit;
+
+    private void showAddDialog() {
+        dialogEdit = new MyEditDialog.Builder()
+                .setTitle("输入标签名称")
+                .setListener(view -> {
+                    listTags.add(dialogEdit.getEditTextString());
+                    dialogEdit.dismiss();
+                })
+                .build();
+        dialogEdit.show(mActivity.getSupportFragmentManager(), "");
     }
 
     @Override
@@ -269,7 +295,7 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
         entity.setDiaryId(diaryId);
         entity.setWeather(spinnerWeather.getSelectedItemPosition());
         entity.setMood(spinnerMood.getSelectedItemPosition());
-        mPresenter.save(diaryId, entity);
+        mPresenter.save(diaryId, entity,listTags);
     }
 
     @Override

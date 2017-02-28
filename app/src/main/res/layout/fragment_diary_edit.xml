@@ -59,12 +59,32 @@
             android:textColor="#333333"
             android:textSize="16sp"/>
 
+        <TextView
+            android:id="@+id/tv_diary_edit_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="添加标签"
+            android:textColor="#333333"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:id="@+id/iv_diary_edit_tag"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/tv_diary_edit_tag"
+            android:background="@drawable/ic_tag"/>
+
         <EditText
             android:id="@+id/et_diary_edit_subhead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/iv_diary_edit_tag"
             android:layout_toRightOf="@id/tv_diary_edit_subhead"
             android:textColor="#333333"
             android:textSize="14sp"/>

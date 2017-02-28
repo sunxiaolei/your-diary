@@ -1,5 +1,7 @@
 package sunxl8.your_diary.ui.diary.edit;
 
+import java.util.List;
+
 import sunxl8.your_diary.base.IPresenter;
 import sunxl8.your_diary.base.IView;
 import sunxl8.your_diary.db.entity.DiaryEntity;
@@ -15,6 +17,6 @@ public interface DiaryEditContract {
     }
 
     interface Presenter extends IPresenter<View> {
-        void save(Long diaryId, DiaryEntity entity);
+        void save(Long diaryId, DiaryEntity entity, List<String> tags);
     }
 }
