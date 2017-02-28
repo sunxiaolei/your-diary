@@ -10,6 +10,7 @@ import sunxl8.your_diary.db.dao.DaoMaster;
 import sunxl8.your_diary.db.dao.DiaryEntityDao;
 import sunxl8.your_diary.db.dao.ItemEntityDao;
 import sunxl8.your_diary.db.dao.MemoEntityDao;
+import sunxl8.your_diary.db.dao.TagEntityDao;
 import sunxl8.your_diary.db.entity.DiaryEntity;
 
 /**

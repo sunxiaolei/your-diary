@@ -13,8 +13,10 @@ import sunxl8.your_diary.base.BaseApplication;
 import sunxl8.your_diary.db.dao.DaoSession;
 import sunxl8.your_diary.db.dao.DiaryEntityDao;
 import sunxl8.your_diary.db.dao.ItemEntityDao;
+import sunxl8.your_diary.db.dao.TagEntityDao;
 import sunxl8.your_diary.db.entity.DiaryEntity;
 import sunxl8.your_diary.db.entity.ItemEntity;
+import sunxl8.your_diary.db.entity.TagEntity;
 import sunxl8.your_diary.event.MainRefreshEvent;
 import sunxl8.your_diary.util.RxBus;
 import sunxl8.your_diary.util.TimeUtils;
@@ -30,12 +32,14 @@ public class DbManager {
 
     private static DiaryEntityDao mDiaryEntityDao;
     private static ItemEntityDao mItemEntityDao;
+    private static TagEntityDao mTagEntityDao;
 
     private DbManager(Context context) {
         if (daoSession == null) {
             daoSession = ((BaseApplication) context).getDaoSession();
             mDiaryEntityDao = daoSession.getDiaryEntityDao();
             mItemEntityDao = daoSession.getItemEntityDao();
+            mTagEntityDao = daoSession.getTagEntityDao();
         }
     }
 
@@ -146,5 +150,14 @@ public class DbManager {
         mItemEntityDao.update(entity);
         RxBus.getInstance()
                 .post(new MainRefreshEvent());
+    }
+
+    /**
+     * 保存标签
+     *
+     * @param entity
+     */
+    public static void addTag(TagEntity entity) {
+        mTagEntityDao.save(entity);
     }
 }
