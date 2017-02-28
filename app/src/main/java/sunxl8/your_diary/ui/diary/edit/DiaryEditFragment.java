@@ -2,6 +2,7 @@ package sunxl8.your_diary.ui.diary.edit;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -122,7 +123,11 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
         RxView.clicks(layoutClean)
                 .compose(this.bindUntilEvent(FragmentEvent.DESTROY))
                 .subscribe(aVoid -> {
-
+                    mActivity.showDialog("确定清空内容？", (dialog, which) -> {
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
+                            clean();
+                        }
+                    });
                 });
         RxView.clicks(layoutSave)
                 .compose(this.bindUntilEvent(FragmentEvent.DESTROY))
@@ -207,13 +212,6 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
     public TakePhoto getTakePhoto() {
         if (takePhoto == null) {
             takePhoto = (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(this, this));
-
-//            CompressConfig config = new CompressConfig.Builder()
-//                    .setMaxSize(800*600)
-//                    .setMaxPixel(800)
-//                    .enableReserveRaw(true)
-//                    .create();
-//            takePhoto.onEnableCompress(config, true);
             options = new TakePhotoOptions.Builder()
                     .setWithOwnGallery(true)
                     .create();
@@ -276,9 +274,16 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
 
     @Override
     public void saveDone() {
+        clean();
         mActivity.hideKeyboard();
         mActivity.showToast("保存成功");
         RxBus.getInstance().post(new DiaryEditDoneEvent());
+    }
+
+    private void clean() {
+        etTitle.setText("");
+        etContent.setText("");
+        etSubhead.setText("");
     }
 
     class MoodAdapter extends BaseAdapter {
