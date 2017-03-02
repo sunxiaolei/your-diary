@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<sunxl8.your_diary.widget.ResizeRelativeLayout
+    android:id="@+id/layout_diary_edit_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -147,6 +148,16 @@
 
     </LinearLayout>
 
+    <me.gujun.android.taggroup.TagGroup
+        android:id="@+id/tg_diary_edit_tag"
+        style="@style/TagGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_diary_edit_option"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"/>
+
     <LinearLayout
         android:id="@+id/layout_diary_edit_bottom"
         android:layout_width="match_parent"
@@ -224,7 +235,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/layout_diary_edit_bottom"
-        android:layout_below="@id/layout_diary_edit_option"
+        android:layout_below="@id/tg_diary_edit_tag"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
@@ -232,11 +243,4 @@
         android:gravity="start"
         android:padding="10dp"/>
 
-    <Button
-        android:id="@+id/btn_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="add"
-        android:visibility="gone"/>
-
-</RelativeLayout>
+</sunxl8.your_diary.widget.ResizeRelativeLayout>

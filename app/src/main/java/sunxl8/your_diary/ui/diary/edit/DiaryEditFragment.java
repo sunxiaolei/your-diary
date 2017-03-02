@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import butterknife.BindView;
+import me.gujun.android.taggroup.TagGroup;
 import rx.functions.Action1;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseFragment;
@@ -53,6 +55,7 @@ import sunxl8.your_diary.ui.main.MainActivity;
 import sunxl8.your_diary.util.RxBus;
 import sunxl8.your_diary.util.TimeUtils;
 import sunxl8.your_diary.widget.MyEditDialog;
+import sunxl8.your_diary.widget.ResizeRelativeLayout;
 import sunxl8.your_diary.widget.RichEditTextView;
 
 /**
@@ -61,6 +64,8 @@ import sunxl8.your_diary.widget.RichEditTextView;
 
 public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implements DiaryEditContract.View, TakePhoto.TakeResultListener, InvokeListener {
 
+    @BindView(R.id.layout_diary_edit_root)
+    ResizeRelativeLayout layoutRoot;
     @BindView(R.id.et_diary_edit_title)
     EditText etTitle;
     @BindView(R.id.et_diary_edit_subhead)
@@ -85,6 +90,15 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
     RelativeLayout layoutSave;
     @BindView(R.id.tv_diary_edit_tag)
     TextView tvTag;
+    @BindView(R.id.tg_diary_edit_tag)
+    TagGroup tgTags;
+
+    @BindView(R.id.layout_diary_edit_top)
+    RelativeLayout layoutTop;
+    @BindView(R.id.layout_diary_edit_subhead)
+    RelativeLayout layoutSubhead;
+    @BindView(R.id.layout_diary_edit_option)
+    LinearLayout layoutOption;
 
     private Long diaryId;
 
@@ -152,6 +166,22 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
                 .subscribe(aVoid -> {
                     showAddDialog();
                 });
+        layoutRoot.setKeyBordStateListener(new ResizeRelativeLayout.KeyBordStateListener() {
+            @Override
+            public void keyBoardIsShowing(boolean state) {
+                if (state){
+                    layoutTop.setVisibility(View.GONE);
+                    layoutSubhead.setVisibility(View.GONE);
+                    layoutOption.setVisibility(View.GONE);
+                    tgTags.setVisibility(View.GONE);
+                }else {
+                    layoutTop.setVisibility(View.VISIBLE);
+                    layoutSubhead.setVisibility(View.VISIBLE);
+                    layoutOption.setVisibility(View.VISIBLE);
+                    tgTags.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private MyEditDialog dialogEdit;
@@ -162,6 +192,7 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
                 .setListener(view -> {
                     listTags.add(dialogEdit.getEditTextString());
                     dialogEdit.dismiss();
+                    tgTags.setTags(listTags);
                 })
                 .build();
         dialogEdit.show(mActivity.getSupportFragmentManager(), "");
@@ -295,7 +326,7 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
         entity.setDiaryId(diaryId);
         entity.setWeather(spinnerWeather.getSelectedItemPosition());
         entity.setMood(spinnerMood.getSelectedItemPosition());
-        mPresenter.save(diaryId, entity,listTags);
+        mPresenter.save(diaryId, entity, listTags);
     }
 
     @Override
@@ -310,6 +341,8 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
         etTitle.setText("");
         etContent.setText("");
         etSubhead.setText("");
+        listTags.clear();
+        tgTags.setTags(listTags);
     }
 
     class MoodAdapter extends BaseAdapter {
