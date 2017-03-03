@@ -54,6 +54,7 @@ public class PinlockActivity extends BaseActivity<PinlockPresenter> implements P
         if (isSet) {
             tvText.setText("请设置密码");
         } else {
+            mPresenter.verifyFingerprint();
             tvText.setText("请输入密码");
         }
 

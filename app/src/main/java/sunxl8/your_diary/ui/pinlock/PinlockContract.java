@@ -17,5 +17,6 @@ public interface PinlockContract {
     interface Presenter extends IPresenter<View> {
         void verifyPin(String pin);
         void savePin(String pin);
+        void verifyFingerprint();
     }
 }
