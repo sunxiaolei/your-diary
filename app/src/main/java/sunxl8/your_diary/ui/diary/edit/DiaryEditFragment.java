@@ -42,10 +42,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import me.gujun.android.taggroup.TagGroup;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 import sunxl8.your_diary.R;
 import sunxl8.your_diary.base.BaseFragment;
 import sunxl8.your_diary.constant.Constant;
@@ -166,22 +170,22 @@ public class DiaryEditFragment extends BaseFragment<DiaryEditPresenter> implemen
                 .subscribe(aVoid -> {
                     showAddDialog();
                 });
-        layoutRoot.setKeyBordStateListener(new ResizeRelativeLayout.KeyBordStateListener() {
-            @Override
-            public void keyBoardIsShowing(boolean state) {
-                if (state){
-                    layoutTop.setVisibility(View.GONE);
-                    layoutSubhead.setVisibility(View.GONE);
-                    layoutOption.setVisibility(View.GONE);
-                    tgTags.setVisibility(View.GONE);
-                }else {
-                    layoutTop.setVisibility(View.VISIBLE);
-                    layoutSubhead.setVisibility(View.VISIBLE);
-                    layoutOption.setVisibility(View.VISIBLE);
-                    tgTags.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+        layoutRoot.setKeyBordStateListener(state -> Observable.timer(300, TimeUnit.MILLISECONDS)//TODO
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(aLong -> {
+                    if (state && etContent.hasFocus()) {
+                        layoutTop.setVisibility(View.GONE);
+                        layoutSubhead.setVisibility(View.GONE);
+                        layoutOption.setVisibility(View.GONE);
+                        tgTags.setVisibility(View.GONE);
+                    } else {
+                        layoutTop.setVisibility(View.VISIBLE);
+                        layoutSubhead.setVisibility(View.VISIBLE);
+                        layoutOption.setVisibility(View.VISIBLE);
+                        tgTags.setVisibility(View.VISIBLE);
+                    }
+                }));
     }
 
     private MyEditDialog dialogEdit;
